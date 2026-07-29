@@ -60,6 +60,13 @@
   .auth-tab{flex:1; text-align:center; padding:10px; border-radius:11px; font-size:13.5px; font-weight:700; color:var(--ink-soft);}
   .auth-tab.active{background:var(--card); color:var(--ink); box-shadow:var(--shadow-sm);}
   .auth-hint{font-size:11.5px; color:var(--ink-faint); text-align:center; margin-top:14px; line-height:1.5;}
+  .social-col{display:flex; flex-direction:column; gap:10px; margin-bottom:18px;}
+  .social-btn{display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:13px; border-radius:15px; font-weight:700; font-size:13.5px;}
+  .social-btn.google{background:var(--card); color:var(--ink); box-shadow:var(--shadow-sm);}
+  .social-btn.apple{background:#111; color:#fff;}
+  .social-btn svg{width:17px; height:17px; flex-shrink:0;}
+  .auth-divider{display:flex; align-items:center; gap:10px; margin:4px 0 16px; color:var(--ink-faint); font-size:11.5px; font-weight:600;}
+  .auth-divider::before, .auth-divider::after{content:""; flex:1; height:1px; background:rgba(150,130,180,0.2);}
 
   /* PRICING */
   .pricing{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
@@ -333,8 +340,19 @@
       <div class="auth-tab tap active" id="tabLogin" onclick="setAuthTab('login')">Giriş Yap</div>
       <div class="auth-tab tap" id="tabRegister" onclick="setAuthTab('register')">Kayıt Ol</div>
     </div>
+    <div class="social-col">
+      <button class="social-btn google tap" onclick="window.authGoogleLogin()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.27c0-.85-.08-1.66-.22-2.44H12v4.62h6.46c-.28 1.5-1.13 2.77-2.4 3.62v3h3.87c2.27-2.09 3.57-5.17 3.57-8.8z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.94-2.9l-3.87-3c-1.08.72-2.46 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.1C3.24 21.3 7.28 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.61H1.27C.46 8.24 0 10.07 0 12s.46 3.76 1.27 5.39l4-3.1z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.28 0 3.24 2.7 1.27 6.61l4 3.1C6.22 6.86 8.87 4.75 12 4.75z"/></svg>
+        Google ile Devam Et
+      </button>
+      <button class="social-btn apple tap" onclick="window.authAppleLogin()">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M16.5 1c.1 1.1-.3 2.2-1 3-.7.8-1.9 1.5-3 1.4-.1-1.1.4-2.2 1-2.9.8-.9 2-1.5 3-1.5zM20.8 17.3c-.5 1.2-1.1 2.3-1.9 3.4-1 1.4-2 2.8-3.6 2.8-1.5 0-2-1-3.8-1s-2.3 1-3.8 1c-1.6 0-2.7-1.5-3.7-2.9-2-2.9-3.6-8.1-1.5-11.7 1-1.8 2.9-2.9 4.9-2.9 1.5 0 2.9 1 3.8 1s2.6-1.2 4.4-1c.8 0 3 .3 4.4 2.4-.1.1-2.6 1.6-2.6 4.6 0 3.6 3.1 4.9 3.4 5z"/></svg>
+        Apple ile Devam Et
+      </button>
+    </div>
+    <div class="auth-divider">veya e-posta ile</div>
     <div id="authFormWrap"></div>
-    <div class="auth-hint">Giriş yaparak Anne Pazarı'nın kullanım koşullarını kabul etmiş olursun. Bu bir tasarım prototipidir, gerçek hesap oluşturmaz.</div>
+    <div class="auth-hint">Giriş yaparak Anne Pazarı'nın kullanım koşullarını kabul etmiş olursun.</div>
   </div>
 </div>
 
@@ -436,8 +454,9 @@ function closeModal(id){ document.getElementById(id).classList.remove("open"); }
 function openModal(id){ document.getElementById(id).classList.add("open"); }
 
 /* ============================================================
-   AUTH (istemci taraflı demo — gerçek bir kimlik doğrulama
-   sunucusu yerine tasarımı göstermek için basit bir simülasyon)
+   AUTH — gerçek Firebase Authentication (bkz. sayfa sonundaki
+   type="module" script bloğu: window.authLogin / authRegister /
+   authGoogleLogin / authAppleLogin / authLogout / onAuthChanged)
    ============================================================ */
 function initials(name){
   return name.trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase();
@@ -473,9 +492,8 @@ function scrollToMine(){
   document.getElementById("kesfet").scrollIntoView({behavior:"smooth"});
   showToast("İlanlarım görünümü çok yakında!");
 }
-function logout(){
-  currentUser = null;
-  renderAuthArea();
+async function logout(){
+  await window.authLogout();
   showToast("Çıkış yapıldı");
 }
 function setAuthTab(tab){
@@ -487,36 +505,49 @@ function setAuthTab(tab){
     wrap.innerHTML = `
       <div class="field"><label>E-posta</label><input id="authEmail" type="email" placeholder="ornek@eposta.com"></div>
       <div class="field"><label>Şifre</label><input id="authPass" type="password" placeholder="••••••••"></div>
-      <button class="submit-btn tap" onclick="doLogin()">Giriş Yap</button>`;
+      <button class="submit-btn tap" id="btnDoLogin">Giriş Yap</button>`;
+    document.getElementById("btnDoLogin").addEventListener("click", doLogin);
   } else {
     wrap.innerHTML = `
       <div class="field"><label>Ad Soyad</label><input id="authName" placeholder="Örn. Ayşe Y."></div>
       <div class="field"><label>E-posta</label><input id="authEmail" type="email" placeholder="ornek@eposta.com"></div>
       <div class="field"><label>Şifre</label><input id="authPass" type="password" placeholder="En az 6 karakter"></div>
-      <button class="submit-btn tap" onclick="doRegister()">Hesap Oluştur</button>`;
+      <button class="submit-btn tap" id="btnDoRegister">Hesap Oluştur</button>`;
+    document.getElementById("btnDoRegister").addEventListener("click", doRegister);
   }
 }
-function doLogin(){
+async function doLogin(){
   const email = document.getElementById("authEmail").value.trim();
   const pass = document.getElementById("authPass").value.trim();
   if (!email || !pass){ showToast("E-posta ve şifre gerekli"); return; }
-  currentUser = {name: email.split("@")[0].replace(/[._]/g," "), email};
-  finishAuth();
+  const btn = document.getElementById("btnDoLogin");
+  btn.textContent = "Giriş yapılıyor..."; btn.disabled = true;
+  try { await window.authLogin(email, pass); }
+  catch(e){ /* hata mesajı authLogin içinde gösterildi */ }
+  finally { btn.textContent = "Giriş Yap"; btn.disabled = false; }
 }
-function doRegister(){
+async function doRegister(){
   const name = document.getElementById("authName").value.trim();
   const email = document.getElementById("authEmail").value.trim();
   const pass = document.getElementById("authPass").value.trim();
   if (!name || !email || pass.length<6){ showToast("Tüm alanları doldur, şifre en az 6 karakter olsun"); return; }
-  currentUser = {name, email};
-  finishAuth();
+  const btn = document.getElementById("btnDoRegister");
+  btn.textContent = "Hesap oluşturuluyor..."; btn.disabled = true;
+  try { await window.authRegister(name, email, pass); }
+  catch(e){ /* hata mesajı authRegister içinde gösterildi */ }
+  finally { btn.textContent = "Hesap Oluştur"; btn.disabled = false; }
 }
-function finishAuth(){
+// Firebase modülü, oturum durumu her değiştiğinde bunu çağırır
+window.onAuthChanged = function(userObj){
+  const wasLoggedOut = !currentUser;
+  currentUser = userObj;
   renderAuthArea();
-  closeModal("authOverlay");
-  showToast(`Hoş geldin, ${currentUser.name.split(" ")[0]} ✓`);
-  if (pendingPostAfterAuth){ pendingPostAfterAuth=false; openModal("postOverlay"); }
-}
+  if (currentUser){
+    closeModal("authOverlay");
+    if (wasLoggedOut) showToast(`Hoş geldin, ${currentUser.name.split(" ")[0]} ✓`);
+    if (pendingPostAfterAuth){ pendingPostAfterAuth=false; openModal("postOverlay"); }
+  }
+};
 
 
 /* AGE RACK */
@@ -701,6 +732,109 @@ document.getElementById("heroSearch").addEventListener("keydown", e=>{
 });
 
 renderRack(); renderCats(); renderGrid(); renderPostForm(); renderAuthArea(); setAuthTab("login"); applyFeaturedVisual();
+</script>
+
+<!-- ============================================================
+     FIREBASE AUTHENTICATION
+     Bu proje annepazari-3114a Firebase projesine bağlıdır (sitenin
+     kendi projesi — uygulamadan bağımsız). Bu bilgiler zaten
+     tarayıcı tarafında herkese açık kullanılan "public" ayarlardır,
+     gizli anahtar değildir; asıl güvenlik Firebase Console >
+     Authentication ve (ileride) Firestore güvenlik kurallarıyla
+     sağlanır.
+     ============================================================ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+    updateProfile, GoogleAuthProvider, OAuthProvider, signInWithPopup, signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDz0VoUdZEVJl8XP0nYU9O27p6CwQ-cBLM",
+    authDomain: "annepazari-3114a.firebaseapp.com",
+    projectId: "annepazari-3114a",
+    storageBucket: "annepazari-3114a.firebasestorage.app",
+    messagingSenderId: "446173169538",
+    appId: "1:446173169538:web:38479663944b9d0a52b19b",
+    measurementId: "G-2M28R049ZK"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
+  const appleProvider = new OAuthProvider("apple.com");
+
+  function friendlyError(code){
+    const map = {
+      "auth/email-already-in-use": "Bu e-posta zaten kayıtlı, giriş yapmayı dene.",
+      "auth/invalid-email": "Geçerli bir e-posta adresi gir.",
+      "auth/weak-password": "Şifre en az 6 karakter olmalı.",
+      "auth/missing-password": "Şifre gerekli.",
+      "auth/user-not-found": "Bu e-posta ile kayıtlı bir hesap bulunamadı.",
+      "auth/wrong-password": "Şifre hatalı, tekrar dene.",
+      "auth/invalid-credential": "E-posta ya da şifre hatalı.",
+      "auth/too-many-requests": "Çok fazla deneme yapıldı, biraz sonra tekrar dene.",
+      "auth/popup-closed-by-user": "Giriş penceresi kapatıldı.",
+      "auth/cancelled-popup-request": "Giriş işlemi iptal edildi.",
+      "auth/operation-not-allowed": "Bu giriş yöntemi henüz aktif değil.",
+      "auth/unauthorized-domain": "Bu site adresi Firebase'de henüz onaylı değil. (Authorized domains listesine eklenmeli.)"
+    };
+    return map[code] || ("Bir şeyler ters gitti, tekrar dene. (" + code + ")");
+  }
+
+  window.authRegister = async (name, email, pass) => {
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      await updateProfile(cred.user, {displayName: name});
+      // updateProfile sonrası onAuthStateChanged tekrar tetiklenmeyebilir,
+      // bu yüzden güncel kullanıcıyı elle de bildiriyoruz.
+      window.onAuthChanged({name, email: cred.user.email});
+    } catch (e) {
+      showToast(friendlyError(e.code));
+      throw e;
+    }
+  };
+
+  window.authLogin = async (email, pass) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } catch (e) {
+      showToast(friendlyError(e.code));
+      throw e;
+    }
+  };
+
+  window.authGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (e) {
+      showToast(friendlyError(e.code));
+    }
+  };
+
+  window.authAppleLogin = async () => {
+    try {
+      await signInWithPopup(auth, appleProvider);
+    } catch (e) {
+      showToast(friendlyError(e.code));
+    }
+  };
+
+  window.authLogout = async () => {
+    await signOut(auth);
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.onAuthChanged({
+        name: user.displayName || (user.email ? user.email.split("@")[0] : "Kullanıcı"),
+        email: user.email
+      });
+    } else {
+      window.onAuthChanged(null);
+    }
+  });
 </script>
 </body>
 </html>
