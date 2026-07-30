@@ -26,7 +26,7 @@
   .disp{font-family:'Plus Jakarta Sans',sans-serif;}
   a{color:inherit; text-decoration:none;}
   button{font-family:inherit; cursor:pointer; border:none;}
-  .tap{transition:transform .15s ease, opacity .15s ease;}
+  .tap{transition:transform .15s ease, opacity .15s ease; cursor:pointer;}
   .tap:active{transform:scale(0.97); opacity:.88;}
   ::-webkit-scrollbar{height:0; width:0;}
   input,textarea,select{font-family:inherit;}
@@ -38,6 +38,7 @@
   .headrow{display:flex; align-items:center; gap:22px; padding:14px 0;}
   .logo{display:flex; align-items:center; gap:9px; font-weight:800; font-size:19px; flex-shrink:0;}
   .logo .mark{width:36px; height:36px; border-radius:11px; background:linear-gradient(135deg,var(--brand),var(--brand-deep)); display:flex; align-items:center; justify-content:center; color:#fff; font-size:17px;}
+  .logo .mark svg{width:20px; height:20px;}
   .head-search{flex:1; display:flex; align-items:center; gap:8px; background:var(--bg); border-radius:14px; padding:4px 4px 4px 16px; border:1.5px solid transparent;}
   .head-search:focus-within{border-color:var(--brand);}
   .head-search input{flex:1; border:none; outline:none; background:transparent; font-size:14px; padding:11px 0; color:var(--ink);}
@@ -153,12 +154,10 @@
   .sponsor-card p{font-size:11px; color:var(--ink-soft); margin:0 0 12px; line-height:1.5;}
   .sponsor-card .btn{padding:9px 16px; font-size:11.5px;}
 
-  /* ===================== LISTINGS LAYOUT: SIDEBAR + GRID ===================== */
-  .listings-layout{display:grid; grid-template-columns:236px 1fr; gap:24px; align-items:start;}
-  @media(max-width:900px){.listings-layout{grid-template-columns:1fr;}}
+  /* ===================== LISTINGS LAYOUT: FULL-WIDTH GRID ===================== */
+  .listings-layout{display:block;}
 
-  .filter-panel{background:var(--card); border-radius:var(--r-lg); padding:18px; box-shadow:var(--shadow-sm); position:sticky; top:150px;}
-  .filter-panel h4{font-size:13px; font-weight:800; margin:0 0 4px;}
+  /* Filter fields now live inside the filterOverlay modal (see body) */
   .fgroup{padding:14px 0; border-bottom:1px solid var(--line);}
   .fgroup:last-child{border-bottom:none;}
   .fgroup-title{font-size:12px; font-weight:800; color:var(--ink); margin-bottom:10px; display:flex; align-items:center; justify-content:between; gap:6px;}
@@ -169,6 +168,7 @@
   .price-range-row input{width:100%; padding:9px 10px; border-radius:10px; border:1px solid var(--line); font-size:12.5px; outline:none;}
   .price-range-row input:focus{border-color:var(--brand);}
   .clear-filters{width:100%; text-align:center; padding:10px; border-radius:11px; background:var(--bg); font-size:12px; font-weight:700; color:var(--ink-soft); margin-top:14px;}
+  .apply-filters{width:100%; text-align:center; padding:12px; border-radius:11px; font-size:13px; font-weight:800; margin-top:10px;}
 
   .listings-main-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;}
   .result-count{font-size:13px; color:var(--ink-soft);}
@@ -176,14 +176,17 @@
   .sort-row{display:flex; align-items:center; gap:8px;}
   .sort-row label{font-size:12px; color:var(--ink-soft); font-weight:600;}
   .sort-row select{padding:9px 12px; border-radius:11px; border:1px solid var(--line); font-size:12.5px; font-weight:700; color:var(--ink); background:var(--card); outline:none;}
-  .mobile-filter-btn{display:none; align-items:center; gap:6px; background:var(--card); box-shadow:var(--shadow-sm); padding:9px 14px; border-radius:11px; font-size:12.5px; font-weight:700;}
-  @media(max-width:900px){
-    .mobile-filter-btn{display:flex;}
-    .filter-panel{position:fixed; top:0; left:0; bottom:0; width:82%; max-width:320px; z-index:120; transform:translateX(-105%); transition:transform .25s ease; overflow-y:auto; border-radius:0; box-shadow:var(--shadow);}
-    .filter-panel.open{transform:translateX(0);}
-    .filter-backdrop{display:none; position:fixed; inset:0; background:rgba(20,15,30,0.4); z-index:110;}
-    .filter-backdrop.open{display:block;}
-  }
+
+  /* "Filtrele" pill — sits at the end of the category strip, next to "Tümü" */
+  .filter-trigger{display:flex; align-items:center; gap:7px; font-size:13px; font-weight:700; color:var(--brand-deep); white-space:nowrap; padding:6px 14px 9px; border-radius:99px; background:var(--brand-light); flex-shrink:0; margin-left:auto;}
+  .filter-trigger svg{width:15px; height:15px;}
+  .filter-trigger .fcount{display:inline-flex; align-items:center; justify-content:center; min-width:16px; height:16px; padding:0 4px; border-radius:99px; background:var(--brand); color:#fff; font-size:9.5px; font-weight:800;}
+
+  /* Category page (shown when a top-tab category is opened) */
+  .cat-page-back{display:none; align-items:center; gap:6px; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-bottom:6px; cursor:pointer; width:fit-content;}
+  .cat-page-back svg{width:14px; height:14px;}
+  body.on-cat-page .cat-page-back{display:flex;}
+  body.on-cat-page .home-only{display:none !important;}
 
   .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
   @media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr);}}
@@ -279,7 +282,12 @@
 
 <header>
   <div class="wrap headrow">
-    <div class="logo tap" style="cursor:pointer;" onclick="window.scrollTo({top:0,behavior:'smooth'})"><div class="mark">🌷</div> Anne Pazarı</div>
+    <div class="logo tap" onclick="goHome()"><div class="mark"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="9" cy="7.6" r="3.1" stroke="currentColor" stroke-width="1.7"/>
+        <path d="M4 20.5c0-4.3 2.3-7.2 5.6-7.9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        <path d="M9.9 13c3 .35 4.7 2.3 4.7 4.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        <circle cx="15.6" cy="15.9" r="2.35" stroke="currentColor" stroke-width="1.7"/>
+      </svg></div> Anne Pazarı</div>
     <div class="head-search">
       <input id="heroSearch" type="text" placeholder="Örn. 6-9 ay tulum, oto koltuğu, ahşap oyuncak...">
       <button class="tap" id="heroSearchBtn">
@@ -303,7 +311,7 @@
 
 <main class="wrap">
 
-  <section class="banner-wrap">
+  <section class="banner-wrap home-only">
     <div class="banner" id="banner">
       <div class="banner-slide active" style="background:linear-gradient(120deg,#D874B3,#8A5CD6); cursor:pointer;" onclick="document.getElementById('btnPostTop').click()">
         <div class="btxt"><span class="beyebrow">YENİ SEZON</span>
@@ -335,17 +343,17 @@
     <div class="trust-strip">
       <div class="trust-item tap" onclick="document.getElementById('btnPostTop').click()"><div class="ic">🆓</div><div><b>İlan vermek ücretsiz</b><span>Sınırsız ilan yayınla</span></div></div>
       <div class="trust-item tap" onclick="document.getElementById('nasil').scrollIntoView({behavior:'smooth'})"><div class="ic">💬</div><div><b>Doğrudan mesajlaş</b><span>Aracı yok, komisyon yok</span></div></div>
-      <div class="trust-item tap" onclick="toggleFilterPanel(true); document.getElementById('kesfet').scrollIntoView({behavior:'smooth'}); document.getElementById('fCityFilter').focus();"><div class="ic">📍</div><div><b>Şehrine göre bul</b><span>81 ilde anne ağı</span></div></div>
+      <div class="trust-item tap" onclick="openModal('filterOverlay'); setTimeout(()=>document.getElementById('fCityFilter').focus(),250);"><div class="ic">📍</div><div><b>Şehrine göre bul</b><span>81 ilde anne ağı</span></div></div>
       <div class="trust-item tap" onclick="document.getElementById('kesfet').scrollIntoView({behavior:'smooth'}); showToast('Her ilanda satıcının kendi gerçek fotoğrafları var 📷');"><div class="ic">📷</div><div><b>Gerçek fotoğraflar</b><span>İlanına kendi fotoğrafını ekle</span></div></div>
     </div>
   </section>
 
-  <div class="rack-section">
+  <div class="rack-section home-only">
     <div class="rack-label">YAŞINA GÖRE DOLABI KARIŞTIR</div>
     <div class="rack" id="ageRack"></div>
   </div>
 
-  <section class="section" id="featuredSection">
+  <section class="section home-only" id="featuredSection">
     <div class="section-head">
       <div><h2 class="disp">🔥 Öne Çıkan İlanlar</h2><p>Vitrindeki en taze seçkiler</p></div>
     </div>
@@ -353,64 +361,32 @@
   </section>
 
   <section class="section" id="kesfet">
+    <div class="cat-page-back tap" onclick="goHome()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Ana Sayfaya Dön
+    </div>
     <div class="section-head">
-      <div><h2 class="disp">İlanları Keşfet</h2><p>Taze eklenenlerden başlayalım</p></div>
-      <button class="mobile-filter-btn tap" id="btnOpenFilters">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
-        Filtrele
-      </button>
+      <div><h2 class="disp" id="kesfetTitle">İlanları Keşfet</h2><p id="kesfetSubtitle">Taze eklenenlerden başlayalım</p></div>
     </div>
 
     <div class="listings-layout">
-      <div class="filter-backdrop" id="filterBackdrop" onclick="toggleFilterPanel(false)"></div>
-      <aside class="filter-panel" id="filterPanel">
-        <h4>Filtreler</h4>
-
-        <div class="fgroup">
-          <div class="fgroup-title">Fiyat Aralığı (₺)</div>
-          <div class="price-range-row">
-            <input type="number" id="fMinPrice" placeholder="Min">
-            <span style="color:var(--ink-faint);">–</span>
-            <input type="number" id="fMaxPrice" placeholder="Max">
-          </div>
+      <div class="listings-main-head">
+        <div class="result-count" id="resultCount"></div>
+        <div class="sort-row">
+          <label>Sırala:</label>
+          <select id="sortSelect">
+            <option value="featured">Öne Çıkanlar Önce</option>
+            <option value="new">En Yeni</option>
+            <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+            <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+          </select>
         </div>
-
-        <div class="fgroup">
-          <div class="fgroup-title">Durum</div>
-          <div id="condFilterRow"></div>
-        </div>
-
-        <div class="fgroup">
-          <div class="fgroup-title">Şehir</div>
-          <input type="text" id="fCityFilter" placeholder="Örn. İstanbul" style="width:100%; padding:9px 11px; border-radius:10px; border:1px solid var(--line); font-size:12.5px; outline:none;">
-        </div>
-
-        <div class="fgroup">
-          <label class="fcheck"><input type="checkbox" id="fOnlyFeatured"> Sadece öne çıkan ilanlar</label>
-        </div>
-
-        <button class="clear-filters tap" id="btnClearFilters">Filtreleri Temizle</button>
-      </aside>
-
-      <div>
-        <div class="listings-main-head">
-          <div class="result-count" id="resultCount"></div>
-          <div class="sort-row">
-            <label>Sırala:</label>
-            <select id="sortSelect">
-              <option value="featured">Öne Çıkanlar Önce</option>
-              <option value="new">En Yeni</option>
-              <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
-              <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid" id="listingGrid"></div>
       </div>
+      <div class="grid" id="listingGrid"></div>
     </div>
   </section>
 
-  <section class="section" id="nasil">
+  <section class="section home-only" id="nasil">
     <div class="section-head"><div><h2 class="disp">Nasıl Çalışır</h2></div></div>
     <div class="how">
       <div class="how-card tap" onclick="document.getElementById('btnPostTop').click()"><div class="num">1</div><h3>İlanını oluştur</h3><p>Ürününün fotoğraflarını, bedenini, durumunu ve fiyatını birkaç adımda gir, hemen yayınla.</p></div>
@@ -419,7 +395,7 @@
     </div>
   </section>
 
-  <section class="section" id="fiyatlandirma">
+  <section class="section home-only" id="fiyatlandirma">
     <div class="section-head">
       <div>
         <h2 class="disp">Üyelik & Görünürlük</h2>
@@ -491,7 +467,6 @@
       <span class="foot-sep">·</span>
       <a class="tap" href="mailto:annepazari@gmail.com">annepazari@gmail.com</a>
     </div>
-    <div class="foot-note">Bu bir tasarım prototipidir — ilanlar ve yüklenen fotoğraflar yalnızca bu oturumda (tarayıcı belleğinde) görünür, sayfa yenilenince sıfırlanır.</div>
   </div>
 </footer>
 
@@ -542,6 +517,40 @@
       </p>
       <p style="color:var(--ink-faint); font-size:11.5px;">Genellikle 1-2 iş günü içinde dönüş yapıyoruz.</p>
     </div>
+  </div>
+</div>
+
+<!-- FILTER MODAL -->
+<div class="overlay" id="filterOverlay">
+  <div class="modal">
+    <div class="modal-close tap" onclick="closeModal('filterOverlay')">✕</div>
+    <h3>Filtreler</h3>
+
+    <div class="fgroup">
+      <div class="fgroup-title">Fiyat Aralığı (₺)</div>
+      <div class="price-range-row">
+        <input type="number" id="fMinPrice" placeholder="Min">
+        <span style="color:var(--ink-faint);">–</span>
+        <input type="number" id="fMaxPrice" placeholder="Max">
+      </div>
+    </div>
+
+    <div class="fgroup">
+      <div class="fgroup-title">Durum</div>
+      <div id="condFilterRow"></div>
+    </div>
+
+    <div class="fgroup">
+      <div class="fgroup-title">Şehir</div>
+      <input type="text" id="fCityFilter" placeholder="Örn. İstanbul" style="width:100%; padding:9px 11px; border-radius:10px; border:1px solid var(--line); font-size:12.5px; outline:none;">
+    </div>
+
+    <div class="fgroup">
+      <label class="fcheck"><input type="checkbox" id="fOnlyFeatured"> Sadece öne çıkan ilanlar</label>
+    </div>
+
+    <button class="btn btn-primary tap apply-filters" onclick="closeModal('filterOverlay')">Sonuçları Göster</button>
+    <button class="clear-filters tap" id="btnClearFilters">Filtreleri Temizle</button>
   </div>
 </div>
 
@@ -821,15 +830,49 @@ function renderRack(){
 }
 function setAge(key){ activeAge = (activeAge===key) ? null : key; renderRack(); renderGrid(); }
 
-/* CATEGORY STRIP (top nav, single-select) */
+/* CATEGORY STRIP (top nav) — "Tümü" stays on the home page, every other
+   category tab now navigates to its own listing page. A "Filtrele" pill
+   sits at the end of the row and opens the filter modal. */
+function activeFilterCount(){
+  let n = activeConditions.size + (cityFilterText?1:0) + (onlyFeaturedFilter?1:0);
+  if (minPriceFilter!=null) n++;
+  if (maxPriceFilter!=null) n++;
+  return n;
+}
 function renderCats(){
   const row = document.getElementById("catRow");
+  const fCount = activeFilterCount();
   row.innerHTML = `<div class="cat-strip-item tap ${activeCategory==='all'?'active':''}" onclick="setCat('all')">🛍️ Tümü</div>` +
-    CATEGORIES.map(c=>`<div class="cat-strip-item tap ${activeCategory===c.key?'active':''}" onclick="setCat('${c.key}')">${ICONS[c.key]}${c.label}</div>`).join("");
+    CATEGORIES.map(c=>`<div class="cat-strip-item tap ${activeCategory===c.key?'active':''}" onclick="setCat('${c.key}')">${ICONS[c.key]}${c.label}</div>`).join("") +
+    `<div class="filter-trigger tap" onclick="openModal('filterOverlay')">
+       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+       Filtrele ${fCount>0 ? `<span class="fcount">${fCount}</span>` : ""}
+     </div>`;
 }
-function setCat(key){ activeCategory = key; renderCats(); renderGrid(); }
+function setCat(key){
+  activeCategory = key;
+  if (key === "all") goHome(); else goToCategoryPage(key);
+}
 
-/* SIDEBAR FILTERS */
+/* PAGE ROUTING — "Tümü" (home) vs. a single-category page */
+function goToCategoryPage(key){
+  const cat = CATEGORIES.find(c=>c.key===key);
+  document.body.classList.add("on-cat-page");
+  document.getElementById("kesfetTitle").textContent = cat ? cat.label : "İlanları Keşfet";
+  document.getElementById("kesfetSubtitle").textContent = cat ? `${cat.label} kategorisindeki ilanlar` : "Taze eklenenlerden başlayalım";
+  renderCats(); renderGrid();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function goHome(){
+  activeCategory = "all";
+  document.body.classList.remove("on-cat-page");
+  document.getElementById("kesfetTitle").textContent = "İlanları Keşfet";
+  document.getElementById("kesfetSubtitle").textContent = "Taze eklenenlerden başlayalım";
+  renderCats(); renderGrid();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* FILTERS (now inside the "Filtrele" modal, apply on every page) */
 function renderCondFilters(){
   const row = document.getElementById("condFilterRow");
   row.innerHTML = CONDITIONS.map(c=>`
@@ -839,27 +882,22 @@ function renderCondFilters(){
 }
 function toggleCondFilter(c){
   if (activeConditions.has(c)) activeConditions.delete(c); else activeConditions.add(c);
-  renderCondFilters(); renderGrid();
+  renderCondFilters(); renderGrid(); renderCats();
 }
-document.getElementById("fMinPrice").addEventListener("input", e=>{ minPriceFilter = e.target.value ? Number(e.target.value) : null; renderGrid(); });
-document.getElementById("fMaxPrice").addEventListener("input", e=>{ maxPriceFilter = e.target.value ? Number(e.target.value) : null; renderGrid(); });
-document.getElementById("fCityFilter").addEventListener("input", e=>{ cityFilterText = e.target.value.trim().toLowerCase(); renderGrid(); });
-document.getElementById("fOnlyFeatured").addEventListener("change", e=>{ onlyFeaturedFilter = e.target.checked; renderGrid(); });
+document.getElementById("fMinPrice").addEventListener("input", e=>{ minPriceFilter = e.target.value ? Number(e.target.value) : null; renderGrid(); renderCats(); });
+document.getElementById("fMaxPrice").addEventListener("input", e=>{ maxPriceFilter = e.target.value ? Number(e.target.value) : null; renderGrid(); renderCats(); });
+document.getElementById("fCityFilter").addEventListener("input", e=>{ cityFilterText = e.target.value.trim().toLowerCase(); renderGrid(); renderCats(); });
+document.getElementById("fOnlyFeatured").addEventListener("change", e=>{ onlyFeaturedFilter = e.target.checked; renderGrid(); renderCats(); });
 document.getElementById("sortSelect").addEventListener("change", e=>{ sortMode = e.target.value; renderGrid(); });
 document.getElementById("btnClearFilters").addEventListener("click", ()=>{
   activeConditions.clear(); cityFilterText=""; minPriceFilter=null; maxPriceFilter=null; onlyFeaturedFilter=false;
-  activeCategory="all"; activeAge=null; searchQuery=""; sortMode="featured";
+  activeAge=null; searchQuery=""; sortMode="featured";
   document.getElementById("fMinPrice").value=""; document.getElementById("fMaxPrice").value="";
   document.getElementById("fCityFilter").value=""; document.getElementById("fOnlyFeatured").checked=false;
   document.getElementById("sortSelect").value="featured"; document.getElementById("heroSearch").value="";
   renderCondFilters(); renderCats(); renderRack(); renderGrid();
   showToast("Filtreler temizlendi");
 });
-function toggleFilterPanel(open){
-  document.getElementById("filterPanel").classList.toggle("open", open);
-  document.getElementById("filterBackdrop").classList.toggle("open", open);
-}
-document.getElementById("btnOpenFilters").addEventListener("click", ()=>toggleFilterPanel(true));
 
 /* ============================================================
    CARD RENDERER — grid, favoriler ve öne çıkan kaydırıcı ortak kullanır
@@ -1059,6 +1097,9 @@ document.getElementById("btnSubmitPost").addEventListener("click", ()=>{
   postImages = []; renderUploadPreviews();
   closeModal("postOverlay");
   activeCategory="all"; activeAge=null; searchQuery=""; document.getElementById("heroSearch").value="";
+  document.body.classList.remove("on-cat-page");
+  document.getElementById("kesfetTitle").textContent = "İlanları Keşfet";
+  document.getElementById("kesfetSubtitle").textContent = "Taze eklenenlerden başlayalım";
   renderCats(); renderRack(); renderGrid(); renderFeaturedScroller();
   showToast(wasFeatured ? "Ödeme alındı, ilanınız öne çıkarıldı ✓" : "İlanınız yayınlandı ✓");
 });
@@ -1070,8 +1111,12 @@ document.getElementById("btnPostTop").addEventListener("click", ()=>{
 document.getElementById("btnPostBottom").addEventListener("click", ()=>document.getElementById("btnPostTop").click());
 document.getElementById("btnFav").addEventListener("click", ()=>{
   if (favorites.size===0){ showToast("Henüz favori ilanınız yok"); return; }
-  activeCategory="all"; renderCats();
-  document.getElementById("kesfet").scrollIntoView({behavior:"smooth"});
+  activeCategory="all";
+  document.body.classList.add("on-cat-page");
+  document.getElementById("kesfetTitle").textContent = "Favorilerim";
+  document.getElementById("kesfetSubtitle").textContent = "Beğendiğin ilanlar burada";
+  renderCats();
+  window.scrollTo({top:0, behavior:"smooth"});
   const grid = document.getElementById("listingGrid");
   const items = listings.filter(l=>favorites.has(l.id));
   document.getElementById("resultCount").innerHTML = `<b>${items.length}</b> favori ilan`;
@@ -1079,8 +1124,8 @@ document.getElementById("btnFav").addEventListener("click", ()=>{
 });
 document.getElementById("heroSearchBtn").addEventListener("click", ()=>{
   searchQuery = document.getElementById("heroSearch").value;
-  document.getElementById("kesfet").scrollIntoView({behavior:"smooth"});
-  renderGrid();
+  activeCategory = "all";
+  goHome();
 });
 document.getElementById("heroSearch").addEventListener("keydown", e=>{
   if (e.key==="Enter") document.getElementById("heroSearchBtn").click();
