@@ -87,6 +87,15 @@
 
   /* ===================== BANNER CAROUSEL ===================== */
   .banner-wrap{padding:22px 0 6px;}
+  .hero-row{display:flex; gap:18px; align-items:stretch; margin-bottom:18px;}
+  .hero-row .banner{flex:1 1 42%; margin:0;}
+  .hero-ad{flex:1 1 58%; min-height:230px; border-radius:var(--r-xl); background:radial-gradient(120% 140% at 100% 0%,#FFE3EF 0%,#F4D9F9 38%,#DCC9F7 100%); position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; text-align:left; gap:8px; padding:26px 30px; cursor:pointer;}
+  .hero-ad .hero-ad-deco{position:absolute; right:-18px; bottom:-30px; font-size:150px; opacity:.16; line-height:1; z-index:0;}
+  .hero-ad .hero-ad-tag{position:relative; z-index:1; font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:rgba(255,255,255,0.35); padding:5px 12px; border-radius:99px;}
+  .hero-ad .hero-ad-title{position:relative; z-index:1; font-size:clamp(19px,2.2vw,25px); font-weight:800; color:#4a2e5c; line-height:1.25; max-width:380px;}
+  .hero-ad .hero-ad-sub{position:relative; z-index:1; font-size:13px; color:#5d4a6b; max-width:340px; line-height:1.5;}
+  .hero-ad .hero-ad-btn{position:relative; z-index:1; margin-top:6px; background:#fff; color:#8A5CD6; font-weight:800; font-size:12.5px; padding:9px 18px; border-radius:99px; border:none; cursor:pointer;}
+  @media (max-width:860px){ .hero-row{flex-direction:column;} .hero-row .banner{flex:1 1 auto;} .hero-ad{flex:1 1 auto; min-height:170px;} }
   .banner{position:relative; border-radius:var(--r-xl); overflow:hidden; min-height:230px; display:flex; align-items:center;}
   .banner-slide{position:absolute; inset:0; display:flex; align-items:center; opacity:0; transition:opacity .5s ease; padding:0 48px;}
   .banner-slide.active{opacity:1; position:relative;}
@@ -369,6 +378,7 @@
 <main class="wrap">
 
   <section class="banner-wrap home-only">
+    <div class="hero-row">
     <div class="banner" id="banner">
       <div class="banner-slide active" style="background:linear-gradient(120deg,#D874B3,#8A5CD6); cursor:pointer;" onclick="document.getElementById('btnPostTop').click()">
         <div class="btxt"><span class="beyebrow">YENİ SEZON</span>
@@ -395,6 +405,15 @@
         <div class="banner-deco">🤍</div>
       </div>
       <div class="banner-dots" id="bannerDots"></div>
+    </div>
+
+    <div class="hero-ad" id="heroAdSlot" onclick="document.getElementById('btnPostTop').click()">
+      <span class="hero-ad-tag">WordBabe</span>
+      <span class="hero-ad-title">Küçülen kıyafet yok, kaybolan gülümseme yok.</span>
+      <span class="hero-ad-sub">Bir annenin dolabından çıkan, başka bir bebeğin ilk kez giydiği şey olsun.</span>
+      <button class="hero-ad-btn tap" onclick="event.stopPropagation(); document.getElementById('btnPostTop').click()">Sen de Katıl</button>
+      <div class="hero-ad-deco">🧸</div>
+    </div>
     </div>
 
     <div class="trust-strip">
