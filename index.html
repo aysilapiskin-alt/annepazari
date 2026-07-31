@@ -276,6 +276,67 @@
   .detail-thumbs{display:flex; gap:8px; margin-bottom:16px; overflow-x:auto;}
   .detail-thumbs img{width:58px; height:58px; border-radius:10px; object-fit:cover; cursor:pointer; opacity:.6; flex-shrink:0; border:2px solid transparent;}
   .detail-thumbs img.active{opacity:1; border-color:var(--brand);}
+
+  /* ===================== PROFILE MODAL (Trendyol esintili) ===================== */
+  .profile-modal{max-width:940px; padding:0; overflow:hidden; display:flex; min-height:540px; max-height:84vh;}
+  .profile-side{width:250px; flex-shrink:0; background:var(--card); border-right:1px solid var(--line); padding:26px 16px; overflow-y:auto;}
+  .profile-user{display:flex; flex-direction:column; align-items:center; text-align:center; padding-bottom:16px; margin-bottom:12px; border-bottom:1px solid var(--line);}
+  .profile-user .avatar-circle{width:54px; height:54px; font-size:18px; margin-bottom:10px;}
+  .profile-user b{font-size:14px;}
+  .profile-user span{font-size:11px; color:var(--ink-soft); margin-top:2px; word-break:break-all;}
+  .profile-nav a{display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:12px; font-size:12.8px; font-weight:700; color:var(--ink-soft); cursor:pointer; margin-bottom:2px;}
+  .profile-nav a:hover{background:var(--bg);}
+  .profile-nav a.active{background:var(--brand-light); color:var(--brand-deep);}
+  .profile-nav a.logout{color:#D9536B; margin-top:8px;}
+  .profile-main{flex:1; padding:28px 30px; overflow-y:auto;}
+  .profile-main h3{font-size:18px; margin:0 0 4px;}
+  .profile-main .sub{font-size:12.5px; color:var(--ink-soft); margin:0 0 22px;}
+  .profile-stats{display:flex; gap:12px; margin-top:24px;}
+  .profile-stat{flex:1; text-align:center; padding:16px 8px; background:var(--bg); border-radius:14px;}
+  .profile-stat b{display:block; font-size:19px; font-weight:800;}
+  .profile-stat span{font-size:11px; color:var(--ink-soft);}
+  @media(max-width:720px){.profile-modal{flex-direction:column; max-height:90vh;} .profile-side{width:100%; border-right:none; border-bottom:1px solid var(--line); padding:16px;} .profile-nav{display:flex; overflow-x:auto; gap:6px;} .profile-nav a{white-space:nowrap; margin-bottom:0;} .profile-main{padding:22px 18px;}}
+
+  /* ORDER TRACKING */
+  .order-card{background:var(--bg); border-radius:16px; padding:16px; margin-bottom:14px;}
+  .order-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:11px; color:var(--ink-soft); flex-wrap:wrap; gap:6px;}
+  .order-status-badge{font-size:10px; font-weight:800; padding:4px 10px; border-radius:99px;}
+  .order-body{display:flex; gap:12px; align-items:center;}
+  .order-body img{width:56px; height:56px; border-radius:12px; object-fit:cover; flex-shrink:0; background:var(--card);}
+  .order-body .oi{flex:1; min-width:0;}
+  .order-body .oi b{display:block; font-size:13px; margin-bottom:2px;}
+  .order-body .oi span{font-size:11.5px; color:var(--ink-soft);}
+  .order-track-btn{font-size:11.5px; font-weight:700; color:var(--brand-deep); padding:9px 14px; border-radius:11px; background:var(--card); width:100%; text-align:center;}
+
+  .stepper{display:flex; margin:22px 0 4px;}
+  .step{flex:1; text-align:center; position:relative; padding:0 2px;}
+  .step .line{position:absolute; top:12px; left:-50%; width:100%; height:2px; background:var(--line); z-index:1;}
+  .step:first-child .line{display:none;}
+  .step .dot{width:24px; height:24px; border-radius:50%; background:var(--card); border:2px solid var(--line); display:flex; align-items:center; justify-content:center; margin:0 auto 7px; font-size:11px; font-weight:800; color:var(--ink-faint); position:relative; z-index:2;}
+  .step.done .dot{background:var(--brand); border-color:var(--brand); color:#fff;}
+  .step.done .line{background:var(--brand);}
+  .step.current .dot{border-color:var(--brand); color:var(--brand-deep);}
+  .step b{display:block; font-size:10px; color:var(--ink); margin-bottom:2px; line-height:1.25;}
+  .step span{font-size:9px; color:var(--ink-faint);}
+
+  /* ADDRESSES */
+  .addr-card{background:var(--bg); border-radius:16px; padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .addr-card b{display:block; font-size:13px; margin-bottom:4px;}
+  .addr-card p{font-size:12px; color:var(--ink-soft); margin:0; line-height:1.5;}
+  .addr-badge{font-size:9px; font-weight:800; color:var(--brand-deep); background:var(--brand-light); padding:3px 8px; border-radius:99px; margin-left:6px;}
+
+  /* ABOUT US */
+  .about-hero{background:linear-gradient(120deg,var(--brand),var(--brand-deep)); border-radius:20px; padding:30px 26px; color:#fff; margin-bottom:20px;}
+  .about-hero h4{font-size:19px; margin:0 0 8px;}
+  .about-hero p{font-size:13px; margin:0; opacity:.92; line-height:1.6;}
+  .about-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px;}
+  .about-stats div{background:var(--bg); border-radius:14px; padding:14px 8px; text-align:center;}
+  .about-stats b{display:block; font-size:18px; font-weight:800;}
+  .about-stats span{font-size:10.5px; color:var(--ink-soft);}
+  .about-values{display:grid; grid-template-columns:repeat(2,1fr); gap:12px;}
+  .about-value{background:var(--bg); border-radius:14px; padding:14px;}
+  .about-value b{display:block; font-size:12.5px; margin-bottom:4px;}
+  .about-value span{font-size:11.5px; color:var(--ink-soft); line-height:1.5;}
 </style>
 </head>
 <body>
@@ -459,6 +520,8 @@
       <span class="tap" style="cursor:pointer;" onclick="document.getElementById('nasil').scrollIntoView({behavior:'smooth'})">Anneden anneye güvenle</span>
     </div>
     <div class="foot-links">
+      <a class="tap" href="#" onclick="event.preventDefault(); openModal('aboutOverlay');">Hakkımızda</a>
+      <span class="foot-sep">·</span>
       <a class="tap" href="#" onclick="event.preventDefault(); openModal('kvkkOverlay');">KVKK Aydınlatma Metni</a>
       <span class="foot-sep">·</span>
       <a class="tap" href="#" onclick="event.preventDefault(); openModal('privacyOverlay');">Gizlilik Politikası</a>
@@ -517,6 +580,41 @@
       </p>
       <p style="color:var(--ink-faint); font-size:11.5px;">Genellikle 1-2 iş günü içinde dönüş yapıyoruz.</p>
     </div>
+  </div>
+</div>
+
+<!-- ABOUT US MODAL -->
+<div class="overlay" id="aboutOverlay">
+  <div class="modal modal-wide">
+    <div class="modal-close tap" onclick="closeModal('aboutOverlay')">✕</div>
+    <div class="about-hero">
+      <h4 class="disp">Anneden anneye, elden ele 🤍</h4>
+      <p>Anne Pazarı, çocuklar büyürken hızla küçülen kıyafetlerin, artık kullanılmayan oyuncakların ve eşyaların çöpe gitmek yerine başka bir bebeğe yeniden hayat vermesi için annelerin bir araya geldiği güvenli bir ikinci el pazar yeridir.</p>
+    </div>
+    <div class="about-stats">
+      <div><b>81</b><span>İlde anne ağı</span></div>
+      <div><b>%0</b><span>Komisyon</span></div>
+      <div><b>2 dk</b><span>İlan verme süresi</span></div>
+    </div>
+    <div class="legal-text" style="margin-bottom:18px;">
+      <p><b>Hikayemiz:</b> Anne Pazarı, bir annenin dolabında biriken küçülmüş kıyafetleri değerlendirmenin ne kadar zor olduğunu fark etmesiyle doğdu. Amacımız; hem israfı azaltmak hem de anneleri birbirine bağlayan, güvenilir ve tamamen ücretsiz bir topluluk kurmak.</p>
+      <p><b>Misyonumuz:</b> Her ailenin bütçesini zorlamadan çocuğuna ihtiyacı olanı bulabilmesini, her annenin de emek verdiği ürünleri kolayca yeni bir yuvaya ulaştırabilmesini sağlamak.</p>
+    </div>
+    <div class="about-values">
+      <div class="about-value"><b>🤝 Güven</b><span>Gerçek fotoğraflar, gerçek satıcılar, doğrudan mesajlaşma.</span></div>
+      <div class="about-value"><b>🌱 Sürdürülebilirlik</b><span>Az kullanılan ürünlere ikinci bir şans veriyoruz.</span></div>
+      <div class="about-value"><b>💸 Şeffaflık</b><span>İlan vermek her zaman ücretsiz, gizli ücret yok.</span></div>
+      <div class="about-value"><b>👩‍👧 Topluluk</b><span>Anneden anneye tavsiye ve dayanışma.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL (Trendyol esintili) -->
+<div class="overlay" id="profileOverlay">
+  <div class="modal profile-modal">
+    <div class="modal-close tap" onclick="closeModal('profileOverlay')">✕</div>
+    <div class="profile-side" id="profileSide"></div>
+    <div class="profile-main" id="profileMain"></div>
   </div>
 </div>
 
@@ -717,6 +815,23 @@ let cityFilterText = "";
 let minPriceFilter = null, maxPriceFilter = null;
 let onlyFeaturedFilter = false;
 let sortMode = "featured";
+let profileTab = "info";
+
+/* ============================================================
+   SİPARİŞLER — Trendyol tarzı kargo takip akışı. Gerçek bir
+   ödeme/kargo entegrasyonu yok; bu bir prototip, "Durumu İlerlet"
+   butonuyla akışı demo olarak canlandırabilirsin.
+   ============================================================ */
+const ORDER_STATUS_STEPS = ["Sipariş Alındı","Onaylandı","Kargoya Verildi","Dağıtımda","Teslim Edildi"];
+let orders = [
+  {id:"o1001", listingId:"s2", statusIndex:2, address:"Kadıköy, İstanbul",
+   history:[Date.now()-86400000*4, Date.now()-86400000*3, Date.now()-86400000*1, null, null]},
+  {id:"o1002", listingId:"s8", statusIndex:4, address:"İzmit, Kocaeli",
+   history:[Date.now()-86400000*9, Date.now()-86400000*8, Date.now()-86400000*7, Date.now()-86400000*6, Date.now()-86400000*6]}
+];
+let addresses = [
+  {id:"a1", label:"Ev", text:"Caferağa Mah. Moda Cd. No:12 D:4, Kadıköy / İstanbul", def:true}
+];
 
 function formatTL(n){ return Number(n).toLocaleString("tr-TR") + " ₺"; }
 function showToast(text){
@@ -748,8 +863,11 @@ function renderAuthArea(){
       <div class="avatar-circle">${initials(currentUser.name)}</div>
       <span class="avatar-name">${currentUser.name.split(" ")[0]}</span>
       <div class="dropdown" id="userDropdown">
-        <a onclick="document.getElementById('btnFav').click()">Favorilerim</a>
-        <a onclick="scrollToMine()">İlanlarım</a>
+        <a onclick="openProfile('info')">👤 Profilim</a>
+        <a onclick="openProfile('orders')">📦 Siparişlerim</a>
+        <a onclick="openProfile('favorites')">❤️ Favorilerim</a>
+        <a onclick="openProfile('listings')">🏷️ İlanlarım</a>
+        <a onclick="openProfile('addresses')">📍 Adreslerim</a>
         <hr>
         <button class="logout" onclick="logout()">Çıkış Yap</button>
       </div>
@@ -763,10 +881,169 @@ document.addEventListener("click", ()=>{
   const dd = document.getElementById("userDropdown");
   if (dd) dd.classList.remove("open");
 });
-function scrollToMine(){
-  document.getElementById("kesfet").scrollIntoView({behavior:"smooth"});
-  showToast("İlanlarım görünümü çok yakında!");
+
+/* ============================================================
+   PROFİL MODALI — Trendyol esintili sidebar + içerik alanı
+   ============================================================ */
+function openProfile(tab){
+  if (!currentUser){
+    pendingPostAfterAuth = false; setAuthTab("login"); openModal("authOverlay");
+    showToast("Görüntülemek için önce giriş yap");
+    return;
+  }
+  const dd = document.getElementById("userDropdown");
+  if (dd) dd.classList.remove("open");
+  profileTab = tab || "info";
+  renderProfileSide();
+  renderProfileMain();
+  openModal("profileOverlay");
 }
+const PROFILE_TABS = [
+  {key:"info", label:"Profil Bilgilerim", icon:"👤"},
+  {key:"orders", label:"Siparişlerim", icon:"📦"},
+  {key:"addresses", label:"Adreslerim", icon:"📍"},
+  {key:"listings", label:"İlanlarım", icon:"🏷️"},
+  {key:"favorites", label:"Favorilerim", icon:"❤️"}
+];
+function renderProfileSide(){
+  if (!currentUser) return;
+  document.getElementById("profileSide").innerHTML = `
+    <div class="profile-user">
+      <div class="avatar-circle">${initials(currentUser.name)}</div>
+      <b>${currentUser.name}</b>
+      <span>${currentUser.email||""}</span>
+    </div>
+    <div class="profile-nav">
+      ${PROFILE_TABS.map(t=>`<a class="tap ${profileTab===t.key?'active':''}" onclick="openProfile('${t.key}')">${t.icon} ${t.label}</a>`).join("")}
+      <hr style="border:none;border-top:1px solid var(--line); margin:10px 4px;">
+      <a class="tap logout" onclick="closeModal('profileOverlay'); logout();">🚪 Çıkış Yap</a>
+    </div>`;
+}
+function renderProfileMain(){
+  const main = document.getElementById("profileMain");
+  if (profileTab==="info") main.innerHTML = profileInfoHTML();
+  else if (profileTab==="orders") main.innerHTML = profileOrdersHTML();
+  else if (profileTab==="addresses") main.innerHTML = profileAddressesHTML();
+  else if (profileTab==="listings") main.innerHTML = profileListingsHTML();
+  else if (profileTab==="favorites") main.innerHTML = profileFavoritesHTML();
+}
+function profileInfoHTML(){
+  const mineCount = listings.filter(l=>l.seller===currentUser.name).length;
+  return `
+    <h3 class="disp">Profil Bilgilerim</h3>
+    <p class="sub">Hesap bilgilerini buradan güncelleyebilirsin</p>
+    <div class="field"><label>Ad Soyad</label><input id="profName" value="${currentUser.name}"></div>
+    <div class="field"><label>E-posta</label><input value="${currentUser.email||''}" disabled style="opacity:.6;"></div>
+    <div class="field"><label>Telefon</label><input id="profPhone" placeholder="05xx xxx xx xx"></div>
+    <button class="submit-btn tap" style="max-width:220px;" onclick="saveProfileInfo()">Kaydet</button>
+    <div class="profile-stats">
+      <div class="profile-stat"><b>${mineCount}</b><span>Aktif İlan</span></div>
+      <div class="profile-stat"><b>${orders.length}</b><span>Sipariş</span></div>
+      <div class="profile-stat"><b>${favorites.size}</b><span>Favori</span></div>
+    </div>`;
+}
+function saveProfileInfo(){
+  const name = document.getElementById("profName").value.trim();
+  if (name) currentUser.name = name;
+  renderAuthArea(); renderProfileSide();
+  showToast("Profil güncellendi ✓");
+}
+function renderStepper(order){
+  return `<div class="stepper">${ORDER_STATUS_STEPS.map((label,i)=>{
+    const done = i <= order.statusIndex;
+    const current = i === order.statusIndex;
+    const date = order.history[i] ? new Date(order.history[i]).toLocaleDateString("tr-TR") : "";
+    return `<div class="step ${done?'done':''} ${current?'current':''}"><div class="line"></div><div class="dot">${done?'✓':(i+1)}</div><b>${label}</b><span>${date}</span></div>`;
+  }).join("")}</div>`;
+}
+function profileOrdersHTML(){
+  if (orders.length===0){
+    return `<h3 class="disp">Siparişlerim</h3><p class="sub">Henüz siparişin yok</p>
+      <div class="empty">${ICONS.empty}<b>Sipariş geçmişin burada görünecek</b>Bir ürün satın aldığında kargo durumunu buradan takip edebilirsin.</div>`;
+  }
+  return `<h3 class="disp">Siparişlerim</h3><p class="sub">Kargo durumunu adım adım buradan takip edebilirsin</p>` +
+    orders.map(o=>{
+      const l = listings.find(x=>x.id===o.listingId);
+      if (!l) return "";
+      const statusLabel = ORDER_STATUS_STEPS[o.statusIndex];
+      const delivered = o.statusIndex >= ORDER_STATUS_STEPS.length-1;
+      const hasImg = l.images && l.images.length>0;
+      return `
+      <div class="order-card">
+        <div class="order-top">
+          <span>Sipariş No: ${o.id.toUpperCase()}</span>
+          <span class="order-status-badge" style="background:${delivered?'var(--green)':'var(--brand-light)'}; color:${delivered?'#3A8F5C':'var(--brand-deep)'};">${statusLabel}</span>
+        </div>
+        <div class="order-body">
+          ${hasImg?`<img src="${l.images[0]}">`:`<div style="width:56px;height:56px;border-radius:12px;background:var(--card);display:flex;align-items:center;justify-content:center;">${ICONS[l.category]}</div>`}
+          <div class="oi"><b>${l.title}</b><span>${formatTL(l.price)} · Teslimat: ${o.address}</span></div>
+        </div>
+        ${renderStepper(o)}
+        ${!delivered ? `<button class="order-track-btn tap" style="margin-top:8px;" onclick="advanceOrder('${o.id}')">Durumu İlerlet (Demo)</button>` : `<div style="margin-top:8px;font-size:11.5px;color:#3A8F5C;font-weight:700;">✓ Teslim edildi</div>`}
+      </div>`;
+    }).join("");
+}
+function advanceOrder(id){
+  const o = orders.find(x=>x.id===id);
+  if (!o || o.statusIndex>=ORDER_STATUS_STEPS.length-1) return;
+  o.statusIndex++;
+  o.history[o.statusIndex] = Date.now();
+  renderProfileMain();
+  showToast(`Sipariş durumu güncellendi: ${ORDER_STATUS_STEPS[o.statusIndex]} ✓`);
+}
+function createOrder(listingId){
+  closeModal("detailOverlay");
+  if (!currentUser){
+    pendingPostAfterAuth = false; setAuthTab("login"); openModal("authOverlay");
+    showToast("Satın almak için önce giriş yap");
+    return;
+  }
+  const defAddr = addresses.find(a=>a.def) || addresses[0];
+  const order = {id:"o"+Date.now(), listingId, statusIndex:0, address: defAddr ? `${defAddr.label}, ${defAddr.text.split(",").pop().trim()}` : "Adres eklenmedi",
+    history:[Date.now(), null, null, null, null]};
+  orders.unshift(order);
+  showToast("Siparişin alındı 🎉 Takibini profilinden yapabilirsin");
+  openProfile("orders");
+}
+function profileAddressesHTML(){
+  return `<h3 class="disp">Adreslerim</h3><p class="sub">Teslimat için kayıtlı adreslerin</p>` +
+    (addresses.length===0 ? `<div class="empty" style="padding:30px 10px;">${ICONS.empty}<b>Henüz adres eklemedin</b></div>` :
+      addresses.map(a=>`
+        <div class="addr-card">
+          <div><b>${a.label}${a.def?' <span class="addr-badge">Varsayılan</span>':''}</b><p>${a.text}</p></div>
+          <button class="btn btn-ghost tap" style="padding:8px 12px;font-size:11px;flex-shrink:0;" onclick="removeAddress('${a.id}')">Sil</button>
+        </div>`).join("")) +
+    `<div class="field" style="margin-top:18px;"><label>Yeni Adres Başlığı</label><input id="newAddrLabel" placeholder="Örn. Ev, İş"></div>
+     <div class="field"><label>Adres</label><textarea id="newAddrText" rows="2" placeholder="Mahalle, cadde, ilçe / il"></textarea></div>
+     <button class="submit-btn tap" style="max-width:200px;" onclick="addAddress()">Adres Ekle</button>`;
+}
+function addAddress(){
+  const label = document.getElementById("newAddrLabel").value.trim();
+  const text = document.getElementById("newAddrText").value.trim();
+  if (!label || !text){ showToast("Başlık ve adres gerekli"); return; }
+  addresses.push({id:"a"+Date.now(), label, text, def:addresses.length===0});
+  renderProfileMain();
+  showToast("Adres eklendi ✓");
+}
+function removeAddress(id){
+  addresses = addresses.filter(a=>a.id!==id);
+  if (addresses.length && !addresses.some(a=>a.def)) addresses[0].def = true;
+  renderProfileMain();
+  showToast("Adres silindi");
+}
+function profileListingsHTML(){
+  const mine = listings.filter(l=>l.seller===currentUser.name);
+  return `<h3 class="disp">İlanlarım</h3><p class="sub">Yayınladığın ilanlar</p>` +
+    (mine.length===0 ? `<div class="empty" style="padding:30px 10px;">${ICONS.empty}<b>Henüz ilanın yok</b>İlk ilanını vermek için "+ İlan Ver" butonuna dokun.</div>`
+      : `<div class="grid" style="grid-template-columns:repeat(2,1fr);">${mine.map(l=>cardHTML(l)).join("")}</div>`);
+}
+function profileFavoritesHTML(){
+  const favs = listings.filter(l=>favorites.has(l.id));
+  return `<h3 class="disp">Favorilerim</h3><p class="sub">Beğendiğin ilanlar</p>` +
+    (favs.length===0 ? `<div class="empty" style="padding:30px 10px;">${ICONS.empty}<b>Henüz favori ilanın yok</b>Kalp ikonuna dokunarak ilan ekleyebilirsin.</div>`
+      : `<div class="grid" style="grid-template-columns:repeat(2,1fr);">${favs.map(l=>cardHTML(l)).join("")}</div>`);
+}
+
 async function logout(){
   await window.authLogout();
   showToast("Çıkış yapıldı");
@@ -1068,7 +1345,10 @@ function openDetail(id){
     </div>
     <p style="font-size:13.5px;line-height:1.6;color:var(--ink);">${l.desc}</p>
     <div class="seller-row">Satıcı: <b>${l.seller}</b></div>
-    <button class="submit-btn tap" onclick="showToast('Mesajlaşma özelliği çok yakında!')" style="margin-top:18px;">Satıcıya Mesaj Gönder</button>
+    <div style="display:flex; gap:10px; margin-top:18px;">
+      <button class="btn btn-ghost tap" style="flex:1; text-align:center; padding:14px;" onclick="showToast('Mesajlaşma özelliği çok yakında!')">Mesaj Gönder</button>
+      <button class="submit-btn tap" style="flex:1; margin-top:0;" onclick="createOrder('${l.id}')">Satın Al</button>
+    </div>
   `;
   openModal("detailOverlay");
 }
