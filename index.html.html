@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anne Pazarı — Elden Ele, Anneden Anneye</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --white:#FFFFFF;
+    --pink:#FDE3EC; --pink-deep:#F6B8CE;
+    --blue:#E0F0FB; --blue-deep:#AEDCF4;
+    --purple:#ECE6FB; --purple-deep:#C6B3F0;
+    --green:#E4F6EA; --green-deep:#A9E0BE;
+    --ink:#362F4D; --ink-soft:#736C87; --ink-faint:#A79FBD;
+    --card:#FFFFFF;
+    --bg: linear-gradient(180deg, #FFF7FA 0%, #F7F5FC 45%, #F2FAF6 100%);
+    --shadow: 0 14px 34px -14px rgba(90,70,130,0.20);
+    --shadow-sm: 0 6px 18px -8px rgba(90,70,130,0.16);
+    --r-xl:28px; --r-lg:22px; --r-md:16px; --r-sm:12px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:'Inter',sans-serif; color:var(--ink); background:var(--bg); -webkit-font-smoothing:antialiased;}
+  .disp{font-family:'Plus Jakarta Sans',sans-serif;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+  .tap{transition:transform .15s ease, opacity .15s ease;}
+  .tap:active{transform:scale(0.97); opacity:.88;}
+  ::-webkit-scrollbar{height:0; width:0;}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+
+  /* HEADER */
+  header{position:sticky; top:0; z-index:40; backdrop-filter:blur(14px); background:rgba(255,247,250,0.82); border-bottom:1px solid rgba(150,130,180,0.10);}
+  .headrow{display:flex; align-items:center; justify-content:space-between; padding:16px 0;}
+  .logo{display:flex; align-items:center; gap:9px; font-weight:800; font-size:19px;}
+  .logo .mark{width:34px; height:34px; border-radius:11px; background:linear-gradient(135deg,#F0A8C6,#B79AEA); display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px;}
+  nav{display:flex; align-items:center; gap:28px;}
+  nav .navlinks{display:flex; gap:22px; font-size:14px; font-weight:600; color:var(--ink-soft);}
+  nav .navlinks a:hover{color:var(--ink);}
+  .btn{padding:12px 20px; border-radius:99px; font-weight:700; font-size:13.5px;}
+  .btn-primary{background:linear-gradient(135deg,#E8A9C4,#B79AEA); color:#fff; box-shadow:0 10px 22px -8px rgba(180,130,200,0.5);}
+  .btn-ghost{background:var(--card); color:var(--ink); box-shadow:var(--shadow-sm);}
+
+  /* AUTH AREA */
+  .auth-guest{display:flex; gap:8px;}
+  .avatar-btn{display:flex; align-items:center; gap:9px; padding:6px 14px 6px 6px; border-radius:99px; background:var(--card); box-shadow:var(--shadow-sm); position:relative;}
+  .avatar-circle{width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,#E8A9C4,#B79AEA); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12.5px; flex-shrink:0;}
+  .avatar-name{font-size:13px; font-weight:700;}
+  .dropdown{position:absolute; top:calc(100% + 10px); right:0; background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:8px; min-width:190px; opacity:0; pointer-events:none; transform:translateY(-6px); transition:all .18s ease; z-index:60;}
+  .dropdown.open{opacity:1; pointer-events:auto; transform:translateY(0);}
+  .dropdown a, .dropdown button{display:block; width:100%; text-align:left; padding:10px 12px; border-radius:10px; font-size:13px; font-weight:600; color:var(--ink); background:none;}
+  .dropdown a:hover, .dropdown button:hover{background:var(--bg);}
+  .dropdown .logout{color:#D98BA6;}
+  .dropdown hr{border:none; border-top:1px solid rgba(150,130,180,0.14); margin:6px 4px;}
+
+  /* AUTH MODAL TABS */
+  .auth-tabs{display:flex; gap:6px; background:var(--bg); padding:4px; border-radius:14px; margin-bottom:18px;}
+  .auth-tab{flex:1; text-align:center; padding:10px; border-radius:11px; font-size:13.5px; font-weight:700; color:var(--ink-soft);}
+  .auth-tab.active{background:var(--card); color:var(--ink); box-shadow:var(--shadow-sm);}
+  .auth-hint{font-size:11.5px; color:var(--ink-faint); text-align:center; margin-top:14px; line-height:1.5;}
+  .social-col{display:flex; flex-direction:column; gap:10px; margin-bottom:18px;}
+  .social-btn{display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:13px; border-radius:15px; font-weight:700; font-size:13.5px;}
+  .social-btn.google{background:var(--card); color:var(--ink); box-shadow:var(--shadow-sm);}
+  .social-btn.apple{background:#111; color:#fff;}
+  .social-btn svg{width:17px; height:17px; flex-shrink:0;}
+  .auth-divider{display:flex; align-items:center; gap:10px; margin:4px 0 16px; color:var(--ink-faint); font-size:11.5px; font-weight:600;}
+  .auth-divider::before, .auth-divider::after{content:""; flex:1; height:1px; background:rgba(150,130,180,0.2);}
+
+  /* PRICING */
+  .pricing{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  @media(max-width:900px){.pricing{grid-template-columns:1fr;}}
+  .price-card{background:var(--card); border-radius:var(--r-lg); padding:26px 22px; box-shadow:var(--shadow-sm); position:relative; border:2px solid transparent;}
+  .price-card.hi{border-color:var(--purple-deep); box-shadow:var(--shadow);}
+  .price-card .rec{position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,#E8A9C4,#B79AEA); color:#fff; font-size:10.5px; font-weight:800; padding:5px 14px; border-radius:99px; white-space:nowrap;}
+  .price-card h3{font-size:15.5px; margin:6px 0 4px;}
+  .price-card .amount{font-size:28px; font-weight:800; margin:8px 0 2px;}
+  .price-card .amount span{font-size:12.5px; font-weight:600; color:var(--ink-faint);}
+  .price-card .pdesc{font-size:12px; color:var(--ink-soft); margin-bottom:16px;}
+  .price-card ul{list-style:none; padding:0; margin:0 0 20px;}
+  .price-card li{font-size:12.5px; color:var(--ink); padding:7px 0; display:flex; gap:8px; align-items:flex-start;}
+  .price-card li::before{content:"✓"; color:#7CB88F; font-weight:800; flex-shrink:0;}
+  .price-card .btn{width:100%; text-align:center; display:block;}
+
+  /* FEATURED / SPONSORED */
+  .card.featured{outline:2px solid var(--purple-deep); position:relative;}
+  .featured-badge{position:absolute; top:10px; left:10px; background:linear-gradient(135deg,#E8A9C4,#B79AEA); color:#fff; font-size:9.5px; font-weight:800; padding:4px 9px; border-radius:99px; display:flex; align-items:center; gap:3px;}
+  .sponsor-card{background:linear-gradient(135deg,var(--purple),var(--blue)); border-radius:var(--r-lg); padding:18px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height:100%;}
+  .sponsor-card .stag{font-size:10px; font-weight:800; color:var(--ink-faint); letter-spacing:.04em; margin-bottom:10px;}
+  .sponsor-card b{font-size:13.5px; margin-bottom:6px;}
+  .sponsor-card p{font-size:11.5px; color:var(--ink-soft); margin:0 0 12px; line-height:1.5;}
+  .sponsor-card .btn{padding:9px 16px; font-size:12px;}
+
+  /* HERO */
+  .hero{padding:64px 0 40px; position:relative; overflow:hidden;}
+  .hero::before{content:"";position:absolute; top:-120px; right:-100px; width:360px; height:360px; border-radius:50%; background:var(--pink-deep); opacity:.35; filter:blur(10px);}
+  .hero::after{content:"";position:absolute; bottom:-140px; left:-80px; width:300px; height:300px; border-radius:50%; background:var(--purple-deep); opacity:.3; filter:blur(10px);}
+  .hero-inner{position:relative; text-align:center; max-width:640px; margin:0 auto;}
+  .eyebrow{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; color:#8A5C77; background:var(--pink); padding:7px 14px; border-radius:99px; margin-bottom:18px;}
+  h1.hero-title{font-size:clamp(30px,5vw,46px); font-weight:800; line-height:1.12; margin:0 0 16px;}
+  h1.hero-title em{font-style:normal; background:linear-gradient(135deg,#E8A9C4,#8B6FC7); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero-sub{font-size:16px; color:var(--ink-soft); line-height:1.6; margin:0 0 30px;}
+  .search-bar{display:flex; align-items:center; gap:10px; background:var(--card); border-radius:20px; padding:8px 8px 8px 18px; box-shadow:var(--shadow); max-width:520px; margin:0 auto;}
+  .search-bar input{flex:1; border:none; outline:none; font-size:14.5px; font-family:inherit; background:transparent; color:var(--ink); padding:10px 0;}
+  .search-bar button{background:var(--ink); color:#fff; padding:12px 20px; border-radius:14px; font-weight:700; font-size:13.5px; white-space:nowrap;}
+  .hero-stats{display:flex; justify-content:center; gap:34px; margin-top:36px;}
+  .hero-stats div{text-align:center;}
+  .hero-stats b{display:block; font-size:20px; font-weight:800;}
+  .hero-stats span{font-size:11.5px; color:var(--ink-faint); font-weight:600;}
+
+  /* AGE RACK — signature element */
+  .rack-section{padding:14px 0 8px;}
+  .rack-label{font-size:12.5px; font-weight:700; color:var(--ink-faint); text-align:center; margin-bottom:14px; letter-spacing:.02em;}
+  .rack{position:relative; padding:26px 0 10px; overflow-x:auto; display:flex; gap:0;}
+  .rack::before{content:""; position:absolute; top:0; left:28px; right:28px; height:4px; border-radius:4px; background:linear-gradient(90deg,#F6B8CE,#C6B3F0,#AEDCF4,#A9E0BE);}
+  .rack-item{flex:1; min-width:96px; display:flex; flex-direction:column; align-items:center; padding-top:16px; cursor:pointer; position:relative;}
+  .rack-item::before{content:""; position:absolute; top:-2px; width:8px; height:8px; border-radius:50%; background:var(--card); border:3px solid var(--purple-deep);}
+  .rack-item .hook{width:2px; height:14px; background:var(--ink-faint); opacity:.4; margin-bottom:6px;}
+  .rack-item .tag{background:var(--card); border-radius:14px; padding:10px 14px; box-shadow:var(--shadow-sm); text-align:center; transition:transform .2s ease, box-shadow .2s ease;}
+  .rack-item:hover .tag, .rack-item.active .tag{transform:translateY(-4px); box-shadow:var(--shadow);}
+  .rack-item.active .tag{background:var(--ink); color:#fff;}
+  .rack-item .tag b{display:block; font-size:13px; font-weight:800;}
+  .rack-item .tag small{font-size:10px; opacity:.7; font-weight:600;}
+
+  /* SECTION TITLES */
+  .section{padding:40px 0;}
+  .section-head{display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:22px;}
+  .section-head h2{font-size:22px; font-weight:800; margin:0;}
+  .section-head p{font-size:13px; color:var(--ink-soft); margin:4px 0 0;}
+  .link-more{font-size:13px; font-weight:700; color:#8B6FC7;}
+
+  /* CATEGORY PILLS (mobile / compact use) */
+  .cats{display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; margin-bottom:16px;}
+  .cat-pill{display:flex; align-items:center; gap:8px; padding:10px 16px; border-radius:99px; background:var(--card); box-shadow:var(--shadow-sm); font-size:13.5px; font-weight:700; white-space:nowrap; color:var(--ink-soft);}
+  .cat-pill.active{background:var(--ink); color:#fff; box-shadow:none;}
+  .cat-pill svg{width:16px; height:16px;}
+
+  /* MARKETPLACE LAYOUT: sidebar + product grid */
+  .market-layout{display:grid; grid-template-columns:240px 1fr; gap:26px; align-items:flex-start;}
+  @media(max-width:900px){.market-layout{grid-template-columns:1fr;}}
+  .filter-sidebar{background:var(--card); border-radius:var(--r-lg); padding:20px; box-shadow:var(--shadow-sm); position:sticky; top:88px;}
+  @media(max-width:900px){.filter-sidebar{display:none;}}
+  .filter-block{margin-bottom:22px;}
+  .filter-block:last-child{margin-bottom:0;}
+  .filter-title{font-size:12px; font-weight:800; color:var(--ink-faint); letter-spacing:.03em; margin-bottom:12px; text-transform:uppercase;}
+  .filter-cat-item{display:flex; align-items:center; gap:9px; padding:8px 6px; border-radius:10px; font-size:13px; font-weight:600; color:var(--ink-soft); cursor:pointer;}
+  .filter-cat-item svg{width:16px; height:16px; flex-shrink:0;}
+  .filter-cat-item.active{background:var(--pink); color:var(--ink); font-weight:800;}
+  .filter-cat-item:hover:not(.active){background:var(--bg);}
+  .filter-age-chips{display:flex; flex-wrap:wrap; gap:7px;}
+  .filter-age-chip{padding:7px 11px; border-radius:99px; font-size:11.5px; font-weight:700; background:var(--bg); color:var(--ink-soft);}
+  .filter-age-chip.active{background:var(--ink); color:#fff;}
+  .price-range-row{display:flex; align-items:center; gap:8px;}
+  .price-range-row input{width:100%; padding:9px 10px; border-radius:10px; border:1px solid rgba(150,130,180,0.2); font-size:12.5px; font-family:inherit; outline:none; background:var(--bg);}
+  .filter-clear{font-size:12px; font-weight:700; color:#D98BA6; margin-top:16px; display:inline-block;}
+
+  .mobile-filter-btn{display:none; align-items:center; gap:8px; padding:11px 16px; border-radius:14px; background:var(--card); box-shadow:var(--shadow-sm); font-weight:700; font-size:13px; margin-bottom:14px;}
+  @media(max-width:900px){.mobile-filter-btn{display:inline-flex;}}
+  .filter-sidebar-close{display:none; text-align:right; margin-bottom:14px; font-weight:800; font-size:13px;}
+  @media(max-width:900px){
+    .filter-sidebar.mobile-open{display:block; position:fixed; inset:0; z-index:95; overflow-y:auto; padding:22px; border-radius:0; top:0;}
+    .filter-sidebar.mobile-open .filter-sidebar-close{display:block;}
+  }
+
+  .sort-bar{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px;}
+  .result-count{font-size:12.5px; color:var(--ink-soft); font-weight:600;}
+  .sort-select{padding:10px 14px; border-radius:12px; border:1px solid rgba(150,130,180,0.2); background:var(--card); font-size:12.5px; font-weight:700; color:var(--ink); font-family:inherit; outline:none;}
+
+  /* GRID — Trendyol/Dolap tarzı ürün kartları */
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  @media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr);}}
+  @media(max-width:640px){.grid{grid-template-columns:repeat(2,1fr); gap:11px;}}
+  .card{background:var(--card); border-radius:var(--r-md); overflow:hidden; box-shadow:var(--shadow-sm); cursor:pointer; transition:transform .18s ease, box-shadow .18s ease;}
+  .card:hover{transform:translateY(-4px); box-shadow:var(--shadow);}
+  .card .thumb{aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;}
+  .card .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .card .thumb svg{width:34%; height:34%; opacity:.9;}
+  .card .fav{position:absolute; top:9px; right:9px; width:29px; height:29px; border-radius:50%; background:rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.12);}
+  .card .fav svg{width:14px; height:14px;}
+  .card .photo-count{position:absolute; bottom:9px; right:9px; background:rgba(20,10,25,0.55); color:#fff; font-size:10px; font-weight:700; padding:3px 8px; border-radius:99px; display:flex; align-items:center; gap:3px;}
+  .card .photo-count svg{width:10px; height:10px;}
+  .card .cbody{padding:11px 12px 13px;}
+  .card .ctag{font-size:10px; font-weight:800; color:#8B6FC7; text-transform:uppercase; letter-spacing:.03em; margin-bottom:4px;}
+  .card .ctitle{font-weight:700; font-size:13px; line-height:1.32; margin-bottom:6px; min-height:34px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .card .cmeta{font-size:11px; color:var(--ink-faint); margin-bottom:8px; display:flex; align-items:center; gap:4px;}
+  .card .cmeta svg{width:11px; height:11px;}
+  .card .cbottom{display:flex; align-items:center; justify-content:space-between;}
+  .card .price{font-weight:800; font-size:16px;}
+  .card .cond-badge{font-size:9px; font-weight:800; padding:3px 7px; border-radius:6px; background:var(--bg); color:var(--ink-soft);}
+  .empty{grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--ink-faint);}
+  .empty svg{width:44px; height:44px; margin-bottom:12px; opacity:.5;}
+  .empty b{display:block; font-size:14.5px; color:var(--ink-soft); margin-bottom:4px;}
+
+  /* IMAGE UPLOAD (post form) */
+  .upload-zone{border:2px dashed rgba(150,130,180,0.3); border-radius:18px; padding:26px 16px; text-align:center; cursor:pointer; margin-bottom:14px; transition:border-color .15s ease, background .15s ease;}
+  .upload-zone:hover, .upload-zone.dragover{border-color:var(--purple-deep); background:var(--purple);}
+  .upload-zone svg{width:30px; height:30px; opacity:.55; margin-bottom:8px;}
+  .upload-zone .u-title{font-size:13px; font-weight:700; color:var(--ink); margin-bottom:3px;}
+  .upload-zone .u-sub{font-size:11px; color:var(--ink-faint);}
+  .upload-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px;}
+  .upload-thumb{position:relative; aspect-ratio:1/1; border-radius:12px; overflow:hidden; background:var(--bg);}
+  .upload-thumb img{width:100%; height:100%; object-fit:cover;}
+  .upload-thumb .rm{position:absolute; top:4px; right:4px; width:20px; height:20px; border-radius:50%; background:rgba(20,10,25,0.65); color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px;}
+  .upload-thumb .cover-tag{position:absolute; bottom:0; left:0; right:0; background:rgba(20,10,25,0.6); color:#fff; font-size:8.5px; font-weight:800; text-align:center; padding:2px 0;}
+
+  /* DETAIL MODAL image gallery */
+  .gallery-main{width:100%; aspect-ratio:1/1; border-radius:18px; overflow:hidden; display:flex; align-items:center; justify-content:center; margin-bottom:10px;}
+  .gallery-main img{width:100%; height:100%; object-fit:cover;}
+  .gallery-main svg{width:30%; height:30%;}
+  .gallery-strip{display:flex; gap:8px; overflow-x:auto; margin-bottom:14px;}
+  .gallery-thumb{width:56px; height:56px; border-radius:10px; overflow:hidden; flex-shrink:0; opacity:.6; border:2px solid transparent; cursor:pointer;}
+  .gallery-thumb.active{opacity:1; border-color:var(--purple-deep);}
+  .gallery-thumb img{width:100%; height:100%; object-fit:cover;}
+
+
+
+  /* HOW IT WORKS */
+  .how{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  @media(max-width:900px){.how{grid-template-columns:1fr;}}
+  .how-card{background:var(--card); border-radius:var(--r-lg); padding:24px; box-shadow:var(--shadow-sm);}
+  .how-card .num{width:32px; height:32px; border-radius:11px; background:var(--pink); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; margin-bottom:14px;}
+  .how-card h3{font-size:15px; margin:0 0 6px;}
+  .how-card p{font-size:13px; color:var(--ink-soft); line-height:1.55; margin:0;}
+
+  /* CTA BAND */
+  .cta-band{border-radius:var(--r-xl); padding:44px 36px; text-align:center; background:linear-gradient(120deg,#F6B8CE 0%,#E8A9C4 45%,#C6B3F0 100%); color:#3A2A3B;}
+  .cta-band h2{font-size:24px; font-weight:800; margin:0 0 10px;}
+  .cta-band p{font-size:14px; margin:0 0 22px; opacity:.85;}
+  .cta-band .btn-primary{background:#fff; color:#5A3B50; box-shadow:none;}
+
+  footer{padding:34px 0 40px; border-top:1px solid rgba(150,130,180,0.14); margin-top:20px;}
+  .foot-row{display:flex; align-items:center; justify-content:space-between; font-size:12.5px; color:var(--ink-faint); flex-wrap:wrap; gap:10px;}
+  .foot-note{background:var(--purple); color:#5A4A80; font-size:11.5px; font-weight:700; padding:8px 14px; border-radius:12px; display:inline-block; margin-top:14px;}
+
+  /* MODAL */
+  .overlay{position:fixed; inset:0; background:rgba(30,20,40,0.45); z-index:100; display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .2s ease;}
+  .overlay.open{opacity:1; pointer-events:auto;}
+  .modal{background:var(--bg); width:100%; max-width:480px; max-height:88vh; overflow-y:auto; border-radius:26px; padding:26px 26px 30px; position:relative; transform:translateY(14px) scale(.98); transition:transform .22s cubic-bezier(.2,.8,.2,1);}
+  .overlay.open .modal{transform:translateY(0) scale(1);}
+  .modal-close{position:absolute; top:16px; right:16px; width:32px; height:32px; border-radius:16px; background:var(--card); display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm);}
+  .modal h3{font-size:19px; font-weight:800; margin:0 0 16px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-bottom:6px;}
+  .field input, .field select, .field textarea{width:100%; padding:13px 15px; border-radius:15px; border:1px solid rgba(150,130,180,0.2); background:var(--card); font-size:14px; color:var(--ink); font-family:inherit; outline:none;}
+  .field textarea{resize:none;}
+  .pillrow{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
+  .pillrow .pchoice{padding:9px 14px; border-radius:99px; font-size:12.5px; font-weight:700; background:var(--card); box-shadow:var(--shadow-sm); color:var(--ink-soft);}
+  .pillrow .pchoice.active{background:var(--ink); color:#fff; box-shadow:none;}
+  .submit-btn{width:100%; padding:15px; border-radius:16px; background:linear-gradient(135deg,#E8A9C4,#B79AEA); color:#fff; font-weight:700; font-size:14.5px; margin-top:6px; box-shadow:0 10px 22px -8px rgba(180,130,200,0.5);}
+  .tag-row{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;}
+  .tag-row span{font-size:11.5px; font-weight:700; color:var(--ink-soft); background:var(--bg); padding:6px 11px; border-radius:99px;}
+  .seller-row{font-size:12.5px; color:var(--ink-faint); margin-top:10px;}
+  .seller-row b{color:var(--ink);}
+  .toast{position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:#fff; padding:13px 22px; border-radius:99px; font-size:13.5px; font-weight:600; opacity:0; pointer-events:none; transition:all .25s ease; z-index:200; box-shadow:0 14px 30px -10px rgba(0,0,0,0.3);}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap headrow">
+    <div class="logo"><div class="mark">🌷</div> Anne Pazarı</div>
+    <nav>
+      <div class="navlinks">
+        <a href="#kesfet">Keşfet</a>
+        <a href="#fiyatlandirma">Üyelik</a>
+        <a href="#nasil">Nasıl Çalışır</a>
+      </div>
+      <button class="btn btn-ghost tap" id="btnFav">Favorilerim</button>
+      <div id="authArea"></div>
+      <button class="btn btn-primary tap" id="btnPostTop">İlan Ver</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <span class="eyebrow">👶 Anneden anneye, elden ele</span>
+    <h1 class="hero-title disp">Küçüldüğü kıyafet, <em>başka bir bebeğin</em> yeni sevgilisi olsun</h1>
+    <p class="hero-sub">Çocuğunuzun büyüdüğü kıyafetleri, kullanmadığı oyuncakları ve eşyalarını satışa çıkarın; ihtiyacınız olanı komşu annelerden uygun fiyata bulun.</p>
+    <div class="search-bar">
+      <input id="heroSearch" type="text" placeholder="Örn. 6-9 ay tulum, oto koltuğu, ahşap oyuncak...">
+      <button class="tap" id="heroSearchBtn">Ara</button>
+    </div>
+    <div class="hero-stats">
+      <div><b id="statCount">0</b><span>AKTİF İLAN</span></div>
+      <div><b>8</b><span>KATEGORİ</span></div>
+      <div><b>81</b><span>İL'DE ANNE</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap rack-section">
+  <div class="rack-label">YAŞINA GÖRE DOLABI KARIŞTIR</div>
+  <div class="rack" id="ageRack"></div>
+</div>
+
+<main class="wrap">
+  <section class="section" id="kesfet">
+    <div class="section-head">
+      <div>
+        <h2 class="disp">İlanları Keşfet</h2>
+        <p>Taze eklenenlerden başlayalım</p>
+      </div>
+    </div>
+
+    <div class="mobile-filter-btn tap" id="mobileFilterBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+      Filtrele
+    </div>
+
+    <div class="market-layout">
+      <aside class="filter-sidebar" id="filterSidebar">
+        <div class="filter-sidebar-close tap" id="filterSidebarClose">✕ Kapat</div>
+        <div class="filter-block">
+          <div class="filter-title">Kategori</div>
+          <div id="catRow"></div>
+        </div>
+        <div class="filter-block">
+          <div class="filter-title">Yaş</div>
+          <div class="filter-age-chips" id="filterAgeChips"></div>
+        </div>
+        <div class="filter-block">
+          <div class="filter-title">Fiyat Aralığı</div>
+          <div class="price-range-row">
+            <input type="text" inputmode="numeric" id="priceMin" placeholder="Min ₺">
+            <span style="color:var(--ink-faint);">–</span>
+            <input type="text" inputmode="numeric" id="priceMax" placeholder="Max ₺">
+          </div>
+        </div>
+        <a class="filter-clear tap" id="filterClearBtn">Filtreleri Temizle</a>
+      </aside>
+
+      <div>
+        <div class="sort-bar">
+          <div class="result-count" id="resultCount"></div>
+          <select class="sort-select" id="sortSelect">
+            <option value="new">Yeni Eklenenler</option>
+            <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+            <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+          </select>
+        </div>
+        <div class="grid" id="listingGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="nasil">
+    <div class="section-head"><div><h2 class="disp">Nasıl Çalışır</h2></div></div>
+    <div class="how">
+      <div class="how-card"><div class="num">1</div><h3>İlanını oluştur</h3><p>Ürününün fotoğrafını, bedenini, durumunu ve fiyatını birkaç adımda gir, hemen yayınla.</p></div>
+      <div class="how-card"><div class="num">2</div><h3>Anneler seni bulsun</h3><p>Kategoriye, yaşa veya şehre göre arayan anneler ilanına ulaşır, favoriler ve mesaj atar.</p></div>
+      <div class="how-card"><div class="num">3</div><h3>Anlaş, teslim et</h3><p>Fiyatta anlaştıktan sonra elden teslim ya da kargo ile ürününü yeni sahibine ulaştır.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="fiyatlandirma">
+    <div class="section-head">
+      <div>
+        <h2 class="disp">Üyelik & Görünürlük</h2>
+        <p>İlan vermek her zaman ücretsiz — öne çıkmak istersen seçim senin</p>
+      </div>
+    </div>
+    <div class="pricing">
+      <div class="price-card">
+        <h3 class="disp">Ücretsiz</h3>
+        <div class="amount">0 ₺<span>/her zaman</span></div>
+        <div class="pdesc">Yeni başlayan satıcılar için</div>
+        <ul>
+          <li>Sınırsız ilan yayınlama</li>
+          <li>Kategori ve şehir bazlı görünürlük</li>
+          <li>Favoriye eklenebilme</li>
+          <li>Mesajlaşma</li>
+        </ul>
+        <button class="btn btn-ghost tap" onclick="document.getElementById('btnPostTop').click()">Ücretsiz Başla</button>
+      </div>
+      <div class="price-card hi">
+        <div class="rec">EN ÇOK TERCİH EDİLEN</div>
+        <h3 class="disp">İlanı Öne Çıkar</h3>
+        <div class="amount">29 ₺<span>/ilan · 7 gün</span></div>
+        <div class="pdesc">Tek ilanını vitrine taşı</div>
+        <ul>
+          <li>Keşfet ekranında üst sıralarda görünme</li>
+          <li>"Öne Çıkan" rozeti</li>
+          <li>Ortalama 4 kat daha fazla görüntülenme</li>
+          <li>7 gün boyunca aktif</li>
+        </ul>
+        <button class="btn btn-primary tap" onclick="document.getElementById('btnPostTop').click()">İlanımı Öne Çıkar</button>
+      </div>
+      <div class="price-card">
+        <h3 class="disp">Premium Üyelik</h3>
+        <div class="amount">39 ₺<span>/ay</span></div>
+        <div class="pdesc">Düzenli satış yapan anneler için</div>
+        <ul>
+          <li>Tüm ilanların otomatik öne çıkması</li>
+          <li>"Doğrulanmış Satıcı" rozeti</li>
+          <li>Öncelikli müşteri desteği</li>
+          <li>Detaylı görüntülenme istatistikleri</li>
+        </ul>
+        <button class="btn btn-ghost tap" onclick="showToast('Premium üyelik çok yakında!')">Yakında</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="cta-band">
+      <h2 class="disp">Dolabında yer açmaya ne dersin?</h2>
+      <p>İlk ilanını 2 dakikada yayınla, tamamen ücretsiz.</p>
+      <button class="btn btn-primary tap" id="btnPostBottom">Hemen İlan Ver</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <span>© 2026 Anne Pazarı</span>
+      <span>Anneden anneye güvenle</span>
+    </div>
+    <div class="foot-note">Bu bir tasarım prototipidir — ilanlar yalnızca bu oturumda görünür, sayfa yenilenince sıfırlanır.</div>
+  </div>
+</footer>
+
+<!-- LISTING DETAIL MODAL -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal">
+    <div class="modal-close tap" onclick="closeModal('detailOverlay')">✕</div>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="overlay" id="authOverlay">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-close tap" onclick="closeModal('authOverlay')">✕</div>
+    <div class="auth-tabs">
+      <div class="auth-tab tap active" id="tabLogin" onclick="setAuthTab('login')">Giriş Yap</div>
+      <div class="auth-tab tap" id="tabRegister" onclick="setAuthTab('register')">Kayıt Ol</div>
+    </div>
+    <div class="social-col">
+      <button class="social-btn google tap" onclick="window.authGoogleLogin()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.27c0-.85-.08-1.66-.22-2.44H12v4.62h6.46c-.28 1.5-1.13 2.77-2.4 3.62v3h3.87c2.27-2.09 3.57-5.17 3.57-8.8z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.94-2.9l-3.87-3c-1.08.72-2.46 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.1C3.24 21.3 7.28 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.61H1.27C.46 8.24 0 10.07 0 12s.46 3.76 1.27 5.39l4-3.1z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.28 0 3.24 2.7 1.27 6.61l4 3.1C6.22 6.86 8.87 4.75 12 4.75z"/></svg>
+        Google ile Devam Et
+      </button>
+      <button class="social-btn apple tap" onclick="window.authAppleLogin()">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M16.5 1c.1 1.1-.3 2.2-1 3-.7.8-1.9 1.5-3 1.4-.1-1.1.4-2.2 1-2.9.8-.9 2-1.5 3-1.5zM20.8 17.3c-.5 1.2-1.1 2.3-1.9 3.4-1 1.4-2 2.8-3.6 2.8-1.5 0-2-1-3.8-1s-2.3 1-3.8 1c-1.6 0-2.7-1.5-3.7-2.9-2-2.9-3.6-8.1-1.5-11.7 1-1.8 2.9-2.9 4.9-2.9 1.5 0 2.9 1 3.8 1s2.6-1.2 4.4-1c.8 0 3 .3 4.4 2.4-.1.1-2.6 1.6-2.6 4.6 0 3.6 3.1 4.9 3.4 5z"/></svg>
+        Apple ile Devam Et
+      </button>
+    </div>
+    <div class="auth-divider">veya e-posta ile</div>
+    <div id="authFormWrap"></div>
+    <div class="auth-hint">Giriş yaparak Anne Pazarı'nın kullanım koşullarını kabul etmiş olursun.</div>
+  </div>
+</div>
+
+<!-- POST AD MODAL -->
+<div class="overlay" id="postOverlay">
+  <div class="modal">
+    <div class="modal-close tap" onclick="closeModal('postOverlay')">✕</div>
+    <h3 class="disp">Yeni İlan Ver</h3>
+
+    <label style="display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">Fotoğraflar (en fazla 6)</label>
+    <div class="upload-grid" id="uploadGrid" style="display:none;"></div>
+    <div class="upload-zone" id="uploadZone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V7a2 2 0 0 1 2-2h3l2-2h2l2 2h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12" r="3.5"/></svg>
+      <div class="u-title">Fotoğraf eklemek için tıkla</div>
+      <div class="u-sub">İlk eklediğin fotoğraf kapak fotoğrafı olur</div>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" multiple style="display:none;">
+
+    <div class="field"><label>Ürün Başlığı</label><input id="fTitle" placeholder="Örn. 3-6 ay kız bebek tulum seti"></div>
+    <label style="display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">Kategori</label>
+    <div class="pillrow" id="fCatRow"></div>
+    <div class="field"><label>Beden / Ölçü</label><input id="fSize" placeholder="Örn. 68 (3-6 ay) / 22 numara"></div>
+    <label style="display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;">Durumu</label>
+    <div class="pillrow" id="fCondRow"></div>
+    <div class="field"><label>Fiyat (₺)</label><input id="fPrice" inputmode="numeric" placeholder="Örn. 150"></div>
+    <div class="field"><label>Şehir / İlçe</label><input id="fCity" placeholder="Örn. Balıkesir, Merkez"></div>
+    <div class="field"><label>Açıklama</label><textarea id="fDesc" rows="3" placeholder="Ürün hakkında kısaca bilgi verin..."></textarea></div>
+    <div class="price-card" style="padding:16px; margin-bottom:16px; box-shadow:none; border:1.5px solid rgba(150,130,180,0.18); cursor:pointer;" id="featureToggle" onclick="toggleFeatured()">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div id="featureCheck" style="width:22px; height:22px; border-radius:7px; border:2px solid var(--purple-deep); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:#fff;"></div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:13.5px;">İlanımı Öne Çıkar <span style="color:#8B6FC7;">(+29 ₺ · 7 gün)</span></div>
+          <div style="font-size:11.5px; color:var(--ink-soft); margin-top:2px;">Keşfet ekranında en üstte, "Öne Çıkan" rozetiyle görün.</div>
+        </div>
+      </div>
+    </div>
+    <button class="submit-btn tap" id="btnSubmitPost">İlanı Yayınla</button>
+  </div>
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   Marka simgeleri — inline SVG, uygulamadaki ikon diliyle uyumlu
+   ============================================================ */
+const ICONS = {
+  kiyafet: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l3 2 3-2 4 3-2 3-2-1v10H8V9L6 10 4 7l5-3z"/></svg>`,
+  ayakkabi: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c0-3 2-5 5-6l4-3 2 2c2 1 6 1.5 7 3.5.6 1.3 0 3.5-2 3.5H4c-.6 0-1-.4-1-1z"/><path d="M8 8v3"/></svg>`,
+  oyuncak: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M8 14c-3 1-4 3-3 6h14c1-3 0-5-3-6"/><circle cx="10" cy="7" r=".6" fill="currentColor"/><circle cx="14" cy="7" r=".6" fill="currentColor"/></svg>`,
+  araba: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M3 18V9a2 2 0 0 1 2-2h5l6 4h2a2 2 0 0 1 2 2v5H3z"/></svg>`,
+  mama: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v6a3 3 0 0 0 6 0V3"/><path d="M12 12v9"/><path d="M17 3c1.5 2 1.5 8-1 10"/></svg>`,
+  mobilya: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5"/><path d="M4 13h16v5H4z"/><path d="M6 18v2M18 18v2"/></svg>`,
+  kitap: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c3-1 5-1 8 0v14c-3-1-5-1-8 0V5z"/><path d="M20 5c-3-1-5-1-8 0v14c3-1 5-1 8 0V5z"/></svg>`,
+  diger: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M4 8l3-4h10l3 4"/><path d="M9 12h6"/></svg>`,
+  heart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.5-9C.7 7 2 3.5 5.5 3c2-.3 3.8.8 4.5 2.3C10.7 3.8 12.5 2.7 14.5 3 18 3.5 19.3 7 17.5 11 15 15.6 12 20 12 20z"/></svg>`,
+  heartFill: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 20s-7-4.4-9.5-9C.7 7 2 3.5 5.5 3c2-.3 3.8.8 4.5 2.3C10.7 3.8 12.5 2.7 14.5 3 18 3.5 19.3 7 17.5 11 15 15.6 12 20 12 20z"/></svg>`,
+  empty: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M3 7l3-4h12l3 4"/><path d="M9 11a3 3 0 0 0 6 0"/></svg>`,
+  camera: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V7a2 2 0 0 1 2-2h3l2-2h2l2 2h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12" r="3.5"/></svg>`
+};
+
+const CATEGORIES = [
+  {key:"kiyafet", label:"Kıyafet", color:"var(--pink)"},
+  {key:"ayakkabi", label:"Ayakkabı", color:"var(--blue)"},
+  {key:"oyuncak", label:"Oyuncak", color:"var(--purple)"},
+  {key:"araba", label:"Bebek Arabası & Oto Koltuğu", color:"var(--green)"},
+  {key:"mama", label:"Mama & Beslenme", color:"var(--pink)"},
+  {key:"mobilya", label:"Mobilya & Uyku", color:"var(--blue)"},
+  {key:"kitap", label:"Kitap & Eğitim", color:"var(--purple)"},
+  {key:"diger", label:"Diğer", color:"var(--green)"}
+];
+const CONDITIONS = ["Yeni / Etiketli","Az Kullanılmış","Kullanılmış - İyi Durumda"];
+const AGE_RANGES = [
+  {key:"0-3", label:"0-3", unit:"AY"},
+  {key:"3-6", label:"3-6", unit:"AY"},
+  {key:"6-12", label:"6-12", unit:"AY"},
+  {key:"1-2", label:"1-2", unit:"YAŞ"},
+  {key:"2-4", label:"2-4", unit:"YAŞ"},
+  {key:"4+", label:"4+", unit:"YAŞ"}
+];
+
+let listings = [
+  {id:"s1", title:"3-6 Ay Kız Bebek Tulum Seti (5 Parça)", category:"kiyafet", age:"3-6", size:"68", condition:"Az Kullanılmış", price:180, city:"Balıkesir, Merkez", desc:"Bir sezon giyildi, lekesiz ve yıpranmamış. Setle birlikte 5 tulum geliyor.", seller:"Elif Anne", featured:true, createdAt:5},
+  {id:"s2", title:"Chicco Oto Koltuğu 0-13 kg", category:"araba", age:"0-3", size:"0-13 kg", condition:"Kullanılmış - İyi Durumda", price:950, city:"İstanbul, Kadıköy", desc:"Tek çocukta kullanıldı, kaza kaydı yok, yıkanabilir kılıfıyla birlikte.", seller:"Merve K.", featured:true, createdAt:4},
+  {id:"s3", title:"Ahşap Eğitici Oyuncak Seti", category:"oyuncak", age:"1-2", size:"—", condition:"Yeni / Etiketli", price:120, city:"Ankara, Çankaya", desc:"Hiç açılmadı, hediye gelmişti. Boyama, şekil eşleştirme parçaları içerir.", seller:"Zeynep A.", featured:false, createdAt:3},
+  {id:"s4", title:"18-24 Ay Erkek Bebek Kışlık Mont", category:"kiyafet", age:"1-2", size:"86-92", condition:"Az Kullanılmış", price:150, city:"Bursa, Nilüfer", desc:"Su geçirmez dış yüzey, içi polar astarlı. Bir kış kullanıldı.", seller:"Sude Y.", featured:false, createdAt:3},
+  {id:"s5", title:"Bebek Uyku Tulumu ve Nevresim Seti", category:"mobilya", age:"0-3", size:"0-6 ay", condition:"Kullanılmış - İyi Durumda", price:90, city:"İzmir, Bornova", desc:"Yıkanmış, hazır kullanıma uygun. Pamuklu kumaş.", seller:"Ayşe T.", featured:false, createdAt:2},
+  {id:"s6", title:"İlk Adım Ayakkabısı, 21 Numara", category:"ayakkabi", age:"1-2", size:"21", condition:"Az Kullanılmış", price:75, city:"Antalya, Muratpaşa", desc:"Yumuşak tabanlı, birkaç kez giyildi. Kutusu mevcut.", seller:"Elif Anne", featured:false, createdAt:1},
+  {id:"s7", title:"Biberon Sterilizatör ve 4'lü Biberon", category:"mama", age:"0-3", size:"—", condition:"Yeni / Etiketli", price:210, city:"Balıkesir, Merkez", desc:"Kullanılmadı, ihtiyaç kalmadı. Orijinal kutusunda.", seller:"Derya S.", featured:false, createdAt:1},
+  {id:"s8", title:"3+ Yaş Resimli Hikaye Kitapları (10 Adet)", category:"kitap", age:"4+", size:"—", condition:"Kullanılmış - İyi Durumda", price:130, city:"Kocaeli, İzmit", desc:"Türkçe klasik masal seti, sayfaları sağlam.", seller:"Merve K.", featured:false, createdAt:0}
+];
+let favorites = new Set();
+let activeCategory = "all";
+let activeAge = null;
+let searchQuery = "";
+let currentUser = null; // {name, email}
+let viewMode = "all"; // all | favs
+let authTab = "login";
+let pendingPostAfterAuth = false;
+let postFeatured = false;
+
+function formatTL(n){ return Number(n).toLocaleString("tr-TR") + " ₺"; }
+function showToast(text){
+  const t = document.getElementById("toast");
+  t.textContent = text; t.classList.add("show");
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>t.classList.remove("show"), 2200);
+}
+function closeModal(id){ document.getElementById(id).classList.remove("open"); }
+function openModal(id){ document.getElementById(id).classList.add("open"); }
+
+/* ============================================================
+   AUTH — gerçek Firebase Authentication (bkz. sayfa sonundaki
+   type="module" script bloğu: window.authLogin / authRegister /
+   authGoogleLogin / authAppleLogin / authLogout / onAuthChanged)
+   ============================================================ */
+function initials(name){
+  return name.trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+}
+function renderAuthArea(){
+  const area = document.getElementById("authArea");
+  if (!currentUser){
+    area.innerHTML = `<button class="btn btn-ghost tap" id="btnLoginTop">Giriş Yap</button>`;
+    document.getElementById("btnLoginTop").addEventListener("click", ()=>{ pendingPostAfterAuth=false; setAuthTab("login"); openModal("authOverlay"); });
+    return;
+  }
+  area.innerHTML = `
+    <div class="avatar-btn tap" id="avatarBtn">
+      <div class="avatar-circle">${initials(currentUser.name)}</div>
+      <span class="avatar-name">${currentUser.name.split(" ")[0]}</span>
+      <div class="dropdown" id="userDropdown">
+        <a onclick="document.getElementById('btnFav').click()">Favorilerim</a>
+        <a onclick="scrollToMine()">İlanlarım</a>
+        <hr>
+        <button class="logout" onclick="logout()">Çıkış Yap</button>
+      </div>
+    </div>`;
+  document.getElementById("avatarBtn").addEventListener("click", (e)=>{
+    e.stopPropagation();
+    document.getElementById("userDropdown").classList.toggle("open");
+  });
+}
+document.addEventListener("click", ()=>{
+  const dd = document.getElementById("userDropdown");
+  if (dd) dd.classList.remove("open");
+});
+function scrollToMine(){
+  document.getElementById("kesfet").scrollIntoView({behavior:"smooth"});
+  showToast("İlanlarım görünümü çok yakında!");
+}
+async function logout(){
+  await window.authLogout();
+  showToast("Çıkış yapıldı");
+}
+function setAuthTab(tab){
+  authTab = tab;
+  document.getElementById("tabLogin").classList.toggle("active", tab==="login");
+  document.getElementById("tabRegister").classList.toggle("active", tab==="register");
+  const wrap = document.getElementById("authFormWrap");
+  if (tab==="login"){
+    wrap.innerHTML = `
+      <div class="field"><label>E-posta</label><input id="authEmail" type="email" placeholder="ornek@eposta.com"></div>
+      <div class="field"><label>Şifre</label><input id="authPass" type="password" placeholder="••••••••"></div>
+      <button class="submit-btn tap" id="btnDoLogin">Giriş Yap</button>`;
+    document.getElementById("btnDoLogin").addEventListener("click", doLogin);
+  } else {
+    wrap.innerHTML = `
+      <div class="field"><label>Ad Soyad</label><input id="authName" placeholder="Örn. Ayşe Y."></div>
+      <div class="field"><label>E-posta</label><input id="authEmail" type="email" placeholder="ornek@eposta.com"></div>
+      <div class="field"><label>Şifre</label><input id="authPass" type="password" placeholder="En az 6 karakter"></div>
+      <button class="submit-btn tap" id="btnDoRegister">Hesap Oluştur</button>`;
+    document.getElementById("btnDoRegister").addEventListener("click", doRegister);
+  }
+}
+async function doLogin(){
+  const email = document.getElementById("authEmail").value.trim();
+  const pass = document.getElementById("authPass").value.trim();
+  if (!email || !pass){ showToast("E-posta ve şifre gerekli"); return; }
+  const btn = document.getElementById("btnDoLogin");
+  btn.textContent = "Giriş yapılıyor..."; btn.disabled = true;
+  try { await window.authLogin(email, pass); }
+  catch(e){ /* hata mesajı authLogin içinde gösterildi */ }
+  finally { btn.textContent = "Giriş Yap"; btn.disabled = false; }
+}
+async function doRegister(){
+  const name = document.getElementById("authName").value.trim();
+  const email = document.getElementById("authEmail").value.trim();
+  const pass = document.getElementById("authPass").value.trim();
+  if (!name || !email || pass.length<6){ showToast("Tüm alanları doldur, şifre en az 6 karakter olsun"); return; }
+  const btn = document.getElementById("btnDoRegister");
+  btn.textContent = "Hesap oluşturuluyor..."; btn.disabled = true;
+  try { await window.authRegister(name, email, pass); }
+  catch(e){ /* hata mesajı authRegister içinde gösterildi */ }
+  finally { btn.textContent = "Hesap Oluştur"; btn.disabled = false; }
+}
+// Firebase modülü, oturum durumu her değiştiğinde bunu çağırır
+window.onAuthChanged = function(userObj){
+  const wasLoggedOut = !currentUser;
+  currentUser = userObj;
+  renderAuthArea();
+  if (currentUser){
+    closeModal("authOverlay");
+    if (wasLoggedOut) showToast(`Hoş geldin, ${currentUser.name.split(" ")[0]} ✓`);
+    if (pendingPostAfterAuth){ pendingPostAfterAuth=false; openModal("postOverlay"); }
+  }
+};
+
+
+/* AGE RACK (hero) + yaş çipleri (sidebar) — aynı activeAge state'ini paylaşır */
+function renderRack(){
+  const rack = document.getElementById("ageRack");
+  rack.innerHTML = AGE_RANGES.map(a => `
+    <div class="rack-item tap ${activeAge===a.key?'active':''}" onclick="setAge('${a.key}')">
+      <div class="hook"></div>
+      <div class="tag"><b>${a.label}</b><small>${a.unit}</small></div>
+    </div>`).join("");
+}
+function renderAgeChips(){
+  const wrap = document.getElementById("filterAgeChips");
+  if (!wrap) return;
+  wrap.innerHTML = AGE_RANGES.map(a=>`<div class="filter-age-chip tap ${activeAge===a.key?'active':''}" onclick="setAge('${a.key}')">${a.label} ${a.unit.toLowerCase()}</div>`).join("");
+}
+function setAge(key){ activeAge = (activeAge===key) ? null : key; viewMode="all"; renderRack(); renderAgeChips(); renderGrid(); }
+
+/* KATEGORİ FİLTRESİ (sidebar, dikey liste) */
+function renderCats(){
+  const row = document.getElementById("catRow");
+  if (!row) return;
+  row.innerHTML = `<div class="filter-cat-item tap ${activeCategory==='all'?'active':''}" onclick="setCat('all')">Tümü</div>` +
+    CATEGORIES.map(c=>`<div class="filter-cat-item tap ${activeCategory===c.key?'active':''}" onclick="setCat('${c.key}')">${ICONS[c.key]}${c.label}</div>`).join("");
+}
+function setCat(key){ activeCategory = key; viewMode="all"; renderCats(); renderGrid(); }
+
+let sortMode = "new";
+function applyFilters(){
+  let items = listings.slice();
+  if (viewMode==="favs") items = items.filter(l=>favorites.has(l.id));
+  if (activeCategory!=="all") items = items.filter(l=>l.category===activeCategory);
+  if (activeAge) items = items.filter(l=>l.age===activeAge);
+  if (searchQuery.trim()) items = items.filter(l=>l.title.toLowerCase().includes(searchQuery.trim().toLowerCase()));
+  const min = parseInt((document.getElementById("priceMin")||{}).value, 10);
+  const max = parseInt((document.getElementById("priceMax")||{}).value, 10);
+  if (!isNaN(min)) items = items.filter(l=>l.price>=min);
+  if (!isNaN(max)) items = items.filter(l=>l.price<=max);
+
+  if (sortMode==="price-asc") items.sort((a,b)=>a.price-b.price);
+  else if (sortMode==="price-desc") items.sort((a,b)=>b.price-a.price);
+  else items.sort((a,b)=> (b.featured?1:0)-(a.featured?1:0) || b.createdAt-a.createdAt);
+  return items;
+}
+function clearFilters(){
+  activeCategory="all"; activeAge=null; searchQuery=""; sortMode="new"; viewMode="all";
+  document.getElementById("heroSearch").value="";
+  document.getElementById("priceMin").value=""; document.getElementById("priceMax").value="";
+  document.getElementById("sortSelect").value="new";
+  renderCats(); renderRack(); renderAgeChips(); renderGrid();
+}
+
+/* GRID */
+function renderGrid(){
+  const grid = document.getElementById("listingGrid");
+  const items = applyFilters();
+
+  document.getElementById("statCount").textContent = listings.length;
+  const rc = document.getElementById("resultCount");
+  if (rc) rc.textContent = `${items.length} ilan bulundu`;
+
+  if (items.length===0){
+    grid.innerHTML = `<div class="empty">${ICONS.empty}<b>Bu filtrelerde ilan bulunamadı</b>Farklı bir kategori ya da yaş aralığı dene.</div>`;
+    return;
+  }
+  let html = items.map((l,i)=>{
+    const cat = CATEGORIES.find(c=>c.key===l.category) || CATEGORIES[CATEGORIES.length-1];
+    const isFav = favorites.has(l.id);
+    const hasPhoto = l.images && l.images.length>0;
+    const card = `
+    <div class="card tap ${l.featured?'featured':''}" onclick="openDetail('${l.id}')">
+      <div class="thumb" style="background:${cat.color}; color:var(--ink);">
+        ${l.featured ? `<div class="featured-badge">⭐ Öne Çıkan</div>` : ""}
+        ${hasPhoto ? `<img src="${l.images[0]}" alt="${l.title}">` : ICONS[l.category]}
+        ${hasPhoto && l.images.length>1 ? `<div class="photo-count">${ICONS.camera} ${l.images.length}</div>` : ""}
+        <div class="fav tap" onclick="event.stopPropagation(); toggleFav('${l.id}')">${isFav?ICONS.heartFill:ICONS.heart}</div>
+      </div>
+      <div class="cbody">
+        <div class="ctag">${cat.label}</div>
+        <div class="ctitle">${l.title}</div>
+        <div class="cmeta">${l.size!=="—" ? l.size+" · " : ""}${l.city.split(",")[0]}</div>
+        <div class="cbottom">
+          <div class="price disp">${formatTL(l.price)}</div>
+          <div class="cond-badge">${l.condition.split(" ")[0]}</div>
+        </div>
+      </div>
+    </div>`;
+    // Her 6 ilanda bir, doğal akışın içine sponsorlu bir kart yerleştiriyoruz
+    if (i===5){
+      return card + `
+      <div class="sponsor-card">
+        <div class="stag">SPONSORLU</div>
+        <b>Markanız burada olabilir</b>
+        <p>Bebek & çocuk ürünleri satan markalar için reklam alanı.</p>
+        <button class="btn btn-primary tap" onclick="showToast('Reklam vermek için bizimle iletişime geçin')">Bize Ulaşın</button>
+      </div>`;
+    }
+    return card;
+  }).join("");
+  grid.innerHTML = html;
+}
+function toggleFav(id){
+  if (favorites.has(id)) favorites.delete(id); else favorites.add(id);
+  renderGrid();
+}
+
+document.getElementById("sortSelect").addEventListener("change", (e)=>{ sortMode = e.target.value; renderGrid(); });
+document.getElementById("priceMin").addEventListener("input", renderGrid);
+document.getElementById("priceMax").addEventListener("input", renderGrid);
+document.getElementById("filterClearBtn").addEventListener("click", clearFilters);
+document.getElementById("mobileFilterBtn").addEventListener("click", ()=>document.getElementById("filterSidebar").classList.add("mobile-open"));
+document.getElementById("filterSidebarClose").addEventListener("click", ()=>document.getElementById("filterSidebar").classList.remove("mobile-open"));
+
+/* DETAIL MODAL */
+function openDetail(id){
+  const l = listings.find(x=>x.id===id);
+  const cat = CATEGORIES.find(c=>c.key===l.category) || CATEGORIES[CATEGORIES.length-1];
+  const hasPhotos = l.images && l.images.length>0;
+  const mainImg = hasPhotos ? l.images[0] : null;
+  document.getElementById("detailContent").innerHTML = `
+    <div class="gallery-main" id="galleryMain" style="background:${cat.color};">
+      ${mainImg ? `<img src="${mainImg}">` : `<div style="color:var(--ink);">${ICONS[l.category]}</div>`}
+    </div>
+    ${hasPhotos && l.images.length>1 ? `<div class="gallery-strip">${l.images.map((src,i)=>`<div class="gallery-thumb tap ${i===0?'active':''}" onclick="setGalleryImg(this,'${src.replace(/'/g,"\\'")}')"><img src="${src}"></div>`).join("")}</div>` : ""}
+    <h3 class="disp" style="margin:4px 0 2px;font-size:21px;">${formatTL(l.price)}</h3>
+    <div style="font-weight:700;font-size:15px;margin-bottom:10px;">${l.title}</div>
+    <div class="tag-row">
+      <span>${cat.label}</span>
+      ${l.size!=="—" ? `<span>Beden/Ölçü: ${l.size}</span>` : ""}
+      <span>${l.condition}</span>
+      <span>📍 ${l.city}</span>
+    </div>
+    <p style="font-size:13.5px;line-height:1.6;color:var(--ink);">${l.desc}</p>
+    <div class="seller-row">Satıcı: <b>${l.seller}</b></div>
+    <button class="submit-btn tap" onclick="showToast('Mesajlaşma özelliği çok yakında!')" style="margin-top:18px;">Satıcıya Mesaj Gönder</button>
+  `;
+  openModal("detailOverlay");
+}
+function setGalleryImg(el, src){
+  document.getElementById("galleryMain").innerHTML = `<img src="${src}">`;
+  document.querySelectorAll(".gallery-thumb").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");
+}
+
+/* POST AD FORM */
+let fCategory = "kiyafet", fCondition = CONDITIONS[1];
+let pendingImages = []; // base64 dataURL dizisi — ilk eleman kapak fotoğrafı olur
+function renderPostForm(){
+  document.getElementById("fCatRow").innerHTML = CATEGORIES.map(c=>
+    `<div class="pchoice tap ${fCategory===c.key?'active':''}" onclick="setFCat('${c.key}')">${c.label}</div>`).join("");
+  document.getElementById("fCondRow").innerHTML = CONDITIONS.map(c=>
+    `<div class="pchoice tap ${fCondition===c?'active':''}" onclick="setFCond('${c}')">${c}</div>`).join("");
+}
+function setFCat(k){ fCategory=k; renderPostForm(); }
+function setFCond(c){ fCondition=c; renderPostForm(); }
+function toggleFeatured(){
+  postFeatured = !postFeatured;
+  applyFeaturedVisual();
+}
+function applyFeaturedVisual(){
+  const box = document.getElementById("featureCheck");
+  box.style.background = postFeatured ? "linear-gradient(135deg,#E8A9C4,#B79AEA)" : "transparent";
+  box.textContent = postFeatured ? "✓" : "";
+  document.getElementById("featureToggle").style.borderColor = postFeatured ? "var(--purple-deep)" : "rgba(150,130,180,0.18)";
+}
+
+function guessAge(sizeText){
+  const s = (sizeText||"").toLowerCase();
+  if (s.includes("0-3")||s.match(/\b(50|56|62)\b/)) return "0-3";
+  if (s.includes("3-6")||s.match(/\b(62|68)\b/)) return "3-6";
+  if (s.includes("6-12")||s.match(/\b(74|80)\b/)) return "6-12";
+  if (s.includes("1-2")||s.match(/\b(86|92)\b/)) return "1-2";
+  if (s.includes("2-4")||s.match(/\b(98|104)\b/)) return "2-4";
+  return "4+";
+}
+
+/* FOTOĞRAF YÜKLEME — şu an dosyalar tarayıcıda base64'e çevrilip
+   bellekte tutuluyor (sayfa yenilenince silinir). İlanlar Firestore'a
+   bağlandığında bu adım gerçek Firebase Storage yüklemesine taşınacak. */
+const MAX_IMAGES = 6;
+function renderUploadGrid(){
+  const grid = document.getElementById("uploadGrid");
+  const zone = document.getElementById("uploadZone");
+  if (pendingImages.length===0){
+    grid.style.display="none"; zone.style.display="block"; return;
+  }
+  grid.style.display="grid";
+  zone.style.display = pendingImages.length>=MAX_IMAGES ? "none" : "block";
+  grid.innerHTML = pendingImages.map((src,i)=>`
+    <div class="upload-thumb">
+      <img src="${src}">
+      ${i===0 ? `<div class="cover-tag">KAPAK</div>` : ""}
+      <div class="rm tap" onclick="event.stopPropagation(); removeImage(${i})">✕</div>
+    </div>`).join("");
+}
+function removeImage(i){ pendingImages.splice(i,1); renderUploadGrid(); }
+function handleFiles(fileList){
+  const files = Array.from(fileList).filter(f=>f.type.startsWith("image/")).slice(0, MAX_IMAGES - pendingImages.length);
+  if (files.length===0 && pendingImages.length>=MAX_IMAGES){ showToast(`En fazla ${MAX_IMAGES} fotoğraf ekleyebilirsin`); return; }
+  files.forEach(file=>{
+    const reader = new FileReader();
+    reader.onload = (e) => { pendingImages.push(e.target.result); renderUploadGrid(); };
+    reader.readAsDataURL(file);
+  });
+}
+document.getElementById("uploadZone").addEventListener("click", ()=>document.getElementById("fileInput").click());
+document.getElementById("fileInput").addEventListener("change", (e)=>{ handleFiles(e.target.files); e.target.value=""; });
+document.getElementById("uploadZone").addEventListener("dragover", (e)=>{ e.preventDefault(); e.currentTarget.classList.add("dragover"); });
+document.getElementById("uploadZone").addEventListener("dragleave", (e)=>{ e.currentTarget.classList.remove("dragover"); });
+document.getElementById("uploadZone").addEventListener("drop", (e)=>{
+  e.preventDefault(); e.currentTarget.classList.remove("dragover");
+  handleFiles(e.dataTransfer.files);
+});
+
+document.getElementById("btnSubmitPost").addEventListener("click", ()=>{
+  const title = document.getElementById("fTitle").value.trim();
+  const price = document.getElementById("fPrice").value.trim();
+  if (!title || !price){ showToast("Başlık ve fiyat zorunludur"); return; }
+  const size = document.getElementById("fSize").value.trim() || "—";
+  const item = {
+    id: "u"+Date.now(),
+    title, category:fCategory, age:guessAge(size), size,
+    condition:fCondition, price:Number(price.replace(/[^0-9]/g,""))||0,
+    city: document.getElementById("fCity").value.trim() || "Belirtilmedi",
+    desc: document.getElementById("fDesc").value.trim() || "Satıcı ek bir açıklama eklemedi.",
+    seller: currentUser.name, featured: postFeatured, images: pendingImages.slice(), createdAt: Date.now()
+  };
+  listings.push(item);
+  ["fTitle","fSize","fPrice","fCity","fDesc"].forEach(id=>document.getElementById(id).value="");
+  fCategory="kiyafet"; fCondition=CONDITIONS[1]; renderPostForm();
+  pendingImages = []; renderUploadGrid();
+  const wasFeatured = postFeatured;
+  postFeatured = false; applyFeaturedVisual();
+  closeModal("postOverlay");
+  activeCategory="all"; activeAge=null; searchQuery=""; viewMode="all"; document.getElementById("heroSearch").value="";
+  renderCats(); renderRack(); renderAgeChips(); renderGrid();
+  showToast(wasFeatured ? "Ödeme alındı, ilanınız öne çıkarıldı ✓" : "İlanınız yayınlandı ✓");
+});
+
+document.getElementById("btnPostTop").addEventListener("click", ()=>{
+  if (!currentUser){ pendingPostAfterAuth=true; setAuthTab("login"); openModal("authOverlay"); showToast("İlan vermek için önce giriş yap"); return; }
+  openModal("postOverlay");
+});
+document.getElementById("btnPostBottom").addEventListener("click", ()=>document.getElementById("btnPostTop").click());
+document.getElementById("btnFav").addEventListener("click", ()=>{
+  if (favorites.size===0){ showToast("Henüz favori ilanınız yok"); return; }
+  viewMode = "favs";
+  document.getElementById("kesfet").scrollIntoView({behavior:"smooth"});
+  renderGrid();
+});
+document.getElementById("heroSearchBtn").addEventListener("click", ()=>{
+  searchQuery = document.getElementById("heroSearch").value;
+  viewMode = "all";
+  document.getElementById("kesfet").scrollIntoView({behavior:"smooth"});
+  renderGrid();
+});
+document.getElementById("heroSearch").addEventListener("keydown", e=>{
+  if (e.key==="Enter") document.getElementById("heroSearchBtn").click();
+});
+[...document.querySelectorAll(".overlay")].forEach(ov=>{
+  ov.addEventListener("click", e=>{ if (e.target===ov) ov.classList.remove("open"); });
+});
+
+renderRack(); renderCats(); renderAgeChips(); renderGrid(); renderPostForm(); renderUploadGrid(); renderAuthArea(); setAuthTab("login"); applyFeaturedVisual();
+</script>
+
+<!-- ============================================================
+     FIREBASE AUTHENTICATION
+     Bu proje annepazari-3114a Firebase projesine bağlıdır (sitenin
+     kendi projesi — uygulamadan bağımsız). Bu bilgiler zaten
+     tarayıcı tarafında herkese açık kullanılan "public" ayarlardır,
+     gizli anahtar değildir; asıl güvenlik Firebase Console >
+     Authentication ve (ileride) Firestore güvenlik kurallarıyla
+     sağlanır.
+     ============================================================ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+    updateProfile, GoogleAuthProvider, OAuthProvider, signInWithPopup, signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDz0VoUdZEVJl8XP0nYU9O27p6CwQ-cBLM",
+    authDomain: "annepazari-3114a.firebaseapp.com",
+    projectId: "annepazari-3114a",
+    storageBucket: "annepazari-3114a.firebasestorage.app",
+    messagingSenderId: "446173169538",
+    appId: "1:446173169538:web:38479663944b9d0a52b19b",
+    measurementId: "G-2M28R049ZK"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
+  const appleProvider = new OAuthProvider("apple.com");
+
+  function friendlyError(code){
+    const map = {
+      "auth/email-already-in-use": "Bu e-posta zaten kayıtlı, giriş yapmayı dene.",
+      "auth/invalid-email": "Geçerli bir e-posta adresi gir.",
+      "auth/weak-password": "Şifre en az 6 karakter olmalı.",
+      "auth/missing-password": "Şifre gerekli.",
+      "auth/user-not-found": "Bu e-posta ile kayıtlı bir hesap bulunamadı.",
+      "auth/wrong-password": "Şifre hatalı, tekrar dene.",
+      "auth/invalid-credential": "E-posta ya da şifre hatalı.",
+      "auth/too-many-requests": "Çok fazla deneme yapıldı, biraz sonra tekrar dene.",
+      "auth/popup-closed-by-user": "Giriş penceresi kapatıldı.",
+      "auth/cancelled-popup-request": "Giriş işlemi iptal edildi.",
+      "auth/operation-not-allowed": "Bu giriş yöntemi henüz aktif değil.",
+      "auth/unauthorized-domain": "Bu site adresi Firebase'de henüz onaylı değil. (Authorized domains listesine eklenmeli.)"
+    };
+    return map[code] || ("Bir şeyler ters gitti, tekrar dene. (" + code + ")");
+  }
+
+  window.authRegister = async (name, email, pass) => {
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      await updateProfile(cred.user, {displayName: name});
+      // updateProfile sonrası onAuthStateChanged tekrar tetiklenmeyebilir,
+      // bu yüzden güncel kullanıcıyı elle de bildiriyoruz.
+      window.onAuthChanged({name, email: cred.user.email});
+    } catch (e) {
+      showToast(friendlyError(e.code));
+      throw e;
+    }
+  };
+
+  window.authLogin = async (email, pass) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } catch (e) {
+      showToast(friendlyError(e.code));
+      throw e;
+    }
+  };
+
+  window.authGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (e) {
+      showToast(friendlyError(e.code));
+    }
+  };
+
+  window.authAppleLogin = async () => {
+    try {
+      await signInWithPopup(auth, appleProvider);
+    } catch (e) {
+      showToast(friendlyError(e.code));
+    }
+  };
+
+  window.authLogout = async () => {
+    await signOut(auth);
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.onAuthChanged({
+        name: user.displayName || (user.email ? user.email.split("@")[0] : "Kullanıcı"),
+        email: user.email
+      });
+    } else {
+      window.onAuthChanged(null);
+    }
+  });
+</script>
+</body>
+</html>
