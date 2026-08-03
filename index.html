@@ -329,45 +329,29 @@
       </div>
     </div>
 
-    <div class="mobile-filter-btn tap" id="mobileFilterBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
-      Filtrele
-    </div>
+    <div class="cats" id="catRow"></div>
 
-    <div class="market-layout">
-      <aside class="filter-sidebar" id="filterSidebar">
-        <div class="filter-sidebar-close tap" id="filterSidebarClose">✕ Kapat</div>
-        <div class="filter-block">
-          <div class="filter-title">Kategori</div>
-          <div id="catRow"></div>
+    <div class="sort-bar">
+      <div class="result-count" id="resultCount"></div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <div class="price-range-row" style="width:auto;">
+          <input type="text" inputmode="numeric" id="priceMin" placeholder="Min ₺" style="width:80px;">
+          <span style="color:var(--ink-faint);">–</span>
+          <input type="text" inputmode="numeric" id="priceMax" placeholder="Max ₺" style="width:80px;">
         </div>
-        <div class="filter-block">
-          <div class="filter-title">Yaş</div>
-          <div class="filter-age-chips" id="filterAgeChips"></div>
-        </div>
-        <div class="filter-block">
-          <div class="filter-title">Fiyat Aralığı</div>
-          <div class="price-range-row">
-            <input type="text" inputmode="numeric" id="priceMin" placeholder="Min ₺">
-            <span style="color:var(--ink-faint);">–</span>
-            <input type="text" inputmode="numeric" id="priceMax" placeholder="Max ₺">
-          </div>
-        </div>
-        <a class="filter-clear tap" id="filterClearBtn">Filtreleri Temizle</a>
-      </aside>
-
-      <div>
-        <div class="sort-bar">
-          <div class="result-count" id="resultCount"></div>
-          <select class="sort-select" id="sortSelect">
-            <option value="new">Yeni Eklenenler</option>
-            <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
-            <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
-          </select>
-        </div>
-        <div class="grid" id="listingGrid"></div>
+        <select class="sort-select" id="sortSelect">
+          <option value="new">Yeni Eklenenler</option>
+          <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+          <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+        </select>
+        <a class="filter-clear tap" id="filterClearBtn" style="margin:0;">Temizle</a>
       </div>
     </div>
+
+    <!-- Yaş filtresi için görünmez yardımcı — üstteki "Yaşına göre dolabı karıştır" rafı zaten aynı işi görüyor -->
+    <div id="filterAgeChips" style="display:none;"></div>
+
+    <div class="grid" id="listingGrid"></div>
   </section>
 
   <section class="section" id="nasil">
@@ -818,8 +802,8 @@ function setAge(key){ activeAge = (activeAge===key) ? null : key; viewMode="all"
 function renderCats(){
   const row = document.getElementById("catRow");
   if (!row) return;
-  row.innerHTML = `<div class="filter-cat-item tap ${activeCategory==='all'?'active':''}" onclick="setCat('all')">Tümü</div>` +
-    CATEGORIES.map(c=>`<div class="filter-cat-item tap ${activeCategory===c.key?'active':''}" onclick="setCat('${c.key}')">${ICONS[c.key]}${c.label}</div>`).join("");
+  row.innerHTML = `<div class="cat-pill tap ${activeCategory==='all'?'active':''}" onclick="setCat('all')">Tümü</div>` +
+    CATEGORIES.map(c=>`<div class="cat-pill tap ${activeCategory===c.key?'active':''}" onclick="setCat('${c.key}')">${ICONS[c.key]}${c.label}</div>`).join("");
 }
 function setCat(key){ activeCategory = key; viewMode="all"; renderCats(); renderGrid(); }
 
@@ -910,8 +894,6 @@ document.getElementById("sortSelect").addEventListener("change", (e)=>{ sortMode
 document.getElementById("priceMin").addEventListener("input", renderGrid);
 document.getElementById("priceMax").addEventListener("input", renderGrid);
 document.getElementById("filterClearBtn").addEventListener("click", clearFilters);
-document.getElementById("mobileFilterBtn").addEventListener("click", ()=>document.getElementById("filterSidebar").classList.add("mobile-open"));
-document.getElementById("filterSidebarClose").addEventListener("click", ()=>document.getElementById("filterSidebar").classList.remove("mobile-open"));
 
 /* DETAIL MODAL */
 function openDetail(id){
