@@ -234,6 +234,37 @@
   .legal-text b{color:var(--ink);}
   .legal-text a{color:var(--brand-deep); font-weight:700;}
 
+  /* ===================== PROFİLİM SAYFASI ===================== */
+  .profile-banner{display:flex; align-items:center; gap:16px; background:var(--card); border-radius:var(--r-lg); padding:22px; box-shadow:var(--shadow-sm); margin-bottom:22px;}
+  .profile-banner .avatar-circle{width:60px; height:60px; font-size:20px; font-weight:800;}
+  .profile-layout{display:grid; grid-template-columns:240px 1fr; gap:20px; align-items:flex-start;}
+  @media(max-width:800px){.profile-layout{grid-template-columns:1fr;}}
+  .profile-sidebar{display:flex; flex-direction:column; gap:14px; position:sticky; top:88px;}
+  .profile-menu{background:var(--card); border-radius:var(--r-lg); padding:10px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:3px;}
+  .profile-menu-item{display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:12px; font-size:13.5px; font-weight:700; color:var(--ink-soft); cursor:pointer;}
+  .profile-menu-item svg{width:17px; height:17px; flex-shrink:0;}
+  .profile-menu-item.active{background:var(--brand-light); color:var(--brand-deep);}
+  .profile-menu-item:hover:not(.active){background:var(--bg);}
+  .profile-menu-item.danger{color:#D9536B; margin-top:6px; border-top:1px solid var(--line); padding-top:13px; border-radius:0;}
+  .profile-ad-card{background:linear-gradient(135deg,var(--purple),var(--blue)); border-radius:var(--r-lg); padding:20px; text-align:center;}
+  .profile-ad-card .stag{font-size:9.5px; font-weight:800; color:var(--ink-faint); letter-spacing:.05em; margin-bottom:10px;}
+  .profile-ad-card .aemoji{font-size:34px; margin-bottom:8px;}
+  .profile-ad-card b{display:block; font-size:13px; margin-bottom:5px;}
+  .profile-ad-card p{font-size:11px; color:var(--ink-soft); margin:0 0 12px; line-height:1.5;}
+  .profile-card{background:var(--card); border-radius:var(--r-lg); padding:24px; box-shadow:var(--shadow-sm);}
+  .profile-card h3{font-size:16px; margin:0 0 18px;}
+  .profile-empty{text-align:center; padding:50px 20px; color:var(--ink-faint);}
+  .profile-empty svg{width:42px; height:42px; opacity:.5; margin-bottom:12px;}
+  .profile-empty b{display:block; font-size:14px; color:var(--ink-soft); margin-bottom:4px;}
+  .my-listing-row{display:flex; align-items:center; gap:14px; padding:12px; border-radius:14px; background:var(--bg); margin-bottom:10px;}
+  .my-listing-row .thumb-sm{width:52px; height:52px; border-radius:10px; overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:var(--card);}
+  .my-listing-row .thumb-sm img{width:100%; height:100%; object-fit:cover;}
+  .my-listing-row .thumb-sm svg{width:45%; height:45%;}
+  .my-listing-row .mlr-title{font-weight:700; font-size:13px; margin-bottom:2px;}
+  .my-listing-row .mlr-meta{font-size:11.5px; color:var(--ink-faint);}
+  .my-listing-row .mlr-actions{display:flex; gap:6px; margin-left:auto;}
+  .mini-btn{padding:8px 12px; border-radius:10px; font-size:11.5px; font-weight:700; background:var(--card); box-shadow:var(--shadow-sm); color:var(--ink-soft); white-space:nowrap;}
+
   /* MODAL */
   .overlay{position:fixed; inset:0; background:rgba(20,15,30,0.5); z-index:100; display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .2s ease;}
   .overlay.open{opacity:1; pointer-events:auto;}
@@ -309,7 +340,7 @@
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="mainView">
 
   <section class="banner-wrap home-only">
     <div class="banner" id="banner">
@@ -451,6 +482,33 @@
     </div>
   </section>
 </main>
+
+<div id="profileView" style="display:none;">
+  <main class="wrap" style="padding-top:26px;">
+    <div class="profile-banner">
+      <div class="avatar-circle" id="profAvatar"></div>
+      <div>
+        <div class="disp" style="font-weight:800; font-size:19px;" id="profName"></div>
+        <div style="font-size:12.5px; color:var(--ink-soft); margin-top:2px;" id="profEmail"></div>
+        <div style="font-size:11px; color:var(--ink-faint); margin-top:2px;" id="profSince"></div>
+      </div>
+    </div>
+
+    <div class="profile-layout">
+      <aside class="profile-sidebar">
+        <div class="profile-menu" id="profileMenu"></div>
+        <div class="profile-ad-card">
+          <div class="stag">REKLAM</div>
+          <div class="aemoji">🎀</div>
+          <b>Markanız burada olabilir</b>
+          <p>Bebek & çocuk ürünleri satan markalar için profil sayfası reklam alanı.</p>
+          <button class="btn btn-white tap" style="width:100%;" onclick="showToast('Reklam vermek için bizimle iletişime geçin')">Bize Ulaşın</button>
+        </div>
+      </aside>
+      <div id="profileContent"></div>
+    </div>
+  </main>
+</div>
 
 <footer>
   <div class="wrap">
@@ -748,8 +806,9 @@ function renderAuthArea(){
       <div class="avatar-circle">${initials(currentUser.name)}</div>
       <span class="avatar-name">${currentUser.name.split(" ")[0]}</span>
       <div class="dropdown" id="userDropdown">
-        <a onclick="document.getElementById('btnFav').click()">Favorilerim</a>
-        <a onclick="scrollToMine()">İlanlarım</a>
+        <a onclick="showProfile('overview')">Profilim</a>
+        <a onclick="showProfile('listings')">İlanlarım</a>
+        <a onclick="showProfile('favorites')">Favorilerim</a>
         <hr>
         <button class="logout" onclick="logout()">Çıkış Yap</button>
       </div>
@@ -763,10 +822,100 @@ document.addEventListener("click", ()=>{
   const dd = document.getElementById("userDropdown");
   if (dd) dd.classList.remove("open");
 });
-function scrollToMine(){
-  document.getElementById("kesfet").scrollIntoView({behavior:"smooth"});
-  showToast("İlanlarım görünümü çok yakında!");
+
+/* ============================================================
+   PROFİLİM SAYFASI — Trendyol/N11 tarzı, ayrı bir sayfa
+   ============================================================ */
+let currentProfileTab = "overview";
+function showProfile(tab){
+  if (!currentUser){ setAuthTab("login"); openModal("authOverlay"); return; }
+  document.getElementById("mainView").style.display = "none";
+  document.getElementById("profileView").style.display = "block";
+  window.scrollTo({top:0});
+  renderProfile(tab || "overview");
 }
+const PROFILE_MENU = [
+  {key:"overview", label:"Profil Bilgilerim", icon: ICONS.diger},
+  {key:"listings", label:"İlanlarım", icon: ICONS.kiyafet},
+  {key:"favorites", label:"Favorilerim", icon: ICONS.heart},
+  {key:"orders", label:"Siparişlerim", icon: ICONS.mama}
+];
+function renderProfile(tab){
+  currentProfileTab = tab;
+  document.getElementById("profAvatar").textContent = initials(currentUser.name);
+  document.getElementById("profName").textContent = currentUser.name;
+  document.getElementById("profEmail").textContent = currentUser.email || "";
+  document.getElementById("profSince").textContent = currentUser.since ? ("Üyelik: " + new Date(currentUser.since).toLocaleDateString("tr-TR", {year:"numeric", month:"long"})) : "";
+
+  document.getElementById("profileMenu").innerHTML = PROFILE_MENU.map(m=>
+    `<div class="profile-menu-item tap ${tab===m.key?'active':''}" onclick="renderProfile('${m.key}')">${m.icon}${m.label}</div>`
+  ).join("") + `<div class="profile-menu-item danger tap" onclick="logout()">${ICONS.empty}Çıkış Yap</div>`;
+
+  const content = document.getElementById("profileContent");
+  if (tab==="overview"){
+    content.innerHTML = `
+      <div class="profile-card">
+        <h3 class="disp">Profil Bilgilerim</h3>
+        <div class="field"><label>Ad Soyad</label><input id="profNameInput" value="${currentUser.name}"></div>
+        <div class="field"><label>E-posta</label><input value="${currentUser.email||''}" disabled style="opacity:.6;"></div>
+        <button class="submit-btn tap" style="margin-top:4px;" onclick="saveProfileName()">Kaydet</button>
+      </div>`;
+  } else if (tab==="listings"){
+    const mine = listings.filter(l=>l.sellerUid===currentUser.uid);
+    content.innerHTML = `<div class="profile-card"><h3 class="disp">İlanlarım (${mine.length})</h3>` +
+      (mine.length===0
+        ? `<div class="profile-empty">${ICONS.empty}<b>Henüz ilan vermedin</b>İlk ilanını vermek için "İlan Ver" butonunu kullan.</div>`
+        : mine.map(l=>{
+            const cat = CATEGORIES.find(c=>c.key===l.category) || CATEGORIES[CATEGORIES.length-1];
+            const hasImg = l.images && l.images.length>0;
+            return `<div class="my-listing-row">
+              <div class="thumb-sm" style="background:${hasImg?'var(--bg)':cat.color};">${hasImg?`<img src="${l.images[0]}">`:ICONS[l.category]}</div>
+              <div>
+                <div class="mlr-title">${l.title}</div>
+                <div class="mlr-meta">${formatTL(l.price)} · ${l.sold?"Satıldı":"Aktif"}${l.featured?" · ⭐ Öne Çıkan":""}</div>
+              </div>
+              <div class="mlr-actions">
+                <div class="mini-btn tap" onclick="event.stopPropagation(); toggleSold('${l.id}')">${l.sold?"Tekrar Yayınla":"Satıldı İşaretle"}</div>
+                <div class="mini-btn tap" style="color:#D9536B;" onclick="event.stopPropagation(); deleteMyListing('${l.id}')">Sil</div>
+              </div>
+            </div>`;
+          }).join("")
+      ) + `</div>`;
+  } else if (tab==="favorites"){
+    const favs = listings.filter(l=>favorites.has(l.id));
+    content.innerHTML = `<div class="profile-card"><h3 class="disp">Favorilerim (${favs.length})</h3>` +
+      (favs.length===0
+        ? `<div class="profile-empty">${ICONS.empty}<b>Henüz favori ilanın yok</b>Beğendiğin ilanların kalp ikonuna dokunarak buraya ekleyebilirsin.</div>`
+        : `<div class="grid">${favs.map(l=>cardHTML(l)).join("")}</div>`
+      ) + `</div>`;
+  } else if (tab==="orders"){
+    content.innerHTML = `
+      <div class="profile-card">
+        <h3 class="disp">Siparişlerim</h3>
+        <div class="profile-empty">${ICONS.empty}<b>Henüz bir satın alma işlemin yok</b>Anne Pazarı'nda alışveriş, satıcıyla doğrudan anlaşarak yapılır — bir ürün satın aldığında burada görünecek.</div>
+      </div>`;
+  }
+}
+function saveProfileName(){
+  const val = document.getElementById("profNameInput").value.trim();
+  if (!val){ showToast("İsim boş olamaz"); return; }
+  window.authUpdateName(val);
+}
+function toggleSold(id){
+  const l = listings.find(x=>x.id===id);
+  if (!l) return;
+  l.sold = !l.sold;
+  renderProfile("listings");
+  renderGrid(); renderFeaturedScroller();
+}
+function deleteMyListing(id){
+  if (!confirm("Bu ilanı silmek istediğine emin misin?")) return;
+  listings = listings.filter(l=>l.id!==id);
+  renderProfile("listings");
+  renderGrid(); renderFeaturedScroller();
+  showToast("İlan silindi");
+}
+
 async function logout(){
   await window.authLogout();
   showToast("Çıkış yapıldı");
@@ -821,6 +970,10 @@ window.onAuthChanged = function(userObj){
     closeModal("authOverlay");
     if (wasLoggedOut) showToast(`Hoş geldin, ${currentUser.name.split(" ")[0]} ✓`);
     if (pendingPostAfterAuth){ pendingPostAfterAuth=false; openModal("postOverlay"); }
+    if (document.getElementById("profileView").style.display!=="none") renderProfile(currentProfileTab);
+  } else {
+    document.getElementById("profileView").style.display = "none";
+    document.getElementById("mainView").style.display = "block";
   }
 };
 
@@ -880,8 +1033,10 @@ function setCat(key){
   if (key === "all") goHome(); else goToCategoryPage(key);
 }
 
-/* PAGE ROUTING — "Tümü" (home) vs. a single-category page */
+/* PAGE ROUTING — "Tümü" (home) vs. a single-category page vs. profile page */
 function goToCategoryPage(key){
+  document.getElementById("mainView").style.display = "block";
+  document.getElementById("profileView").style.display = "none";
   const cat = CATEGORIES.find(c=>c.key===key);
   document.body.classList.add("on-cat-page");
   document.getElementById("kesfetTitle").textContent = cat ? cat.label : "İlanları Keşfet";
@@ -890,6 +1045,8 @@ function goToCategoryPage(key){
   window.scrollTo({top:0, behavior:"smooth"});
 }
 function goHome(){
+  document.getElementById("mainView").style.display = "block";
+  document.getElementById("profileView").style.display = "none";
   activeCategory = "all";
   document.body.classList.remove("on-cat-page");
   document.getElementById("kesfetTitle").textContent = "İlanları Keşfet";
@@ -1042,6 +1199,7 @@ function renderGrid(){
 function toggleFav(id){
   if (favorites.has(id)) favorites.delete(id); else favorites.add(id);
   renderGrid(); renderFeaturedScroller();
+  if (document.getElementById("profileView").style.display!=="none" && currentProfileTab==="favorites") renderProfile("favorites");
 }
 
 /* DETAIL MODAL — galeri destekli */
@@ -1154,7 +1312,7 @@ document.getElementById("btnSubmitPost").addEventListener("click", ()=>{
     condition:fCondition, price:Number(price.replace(/[^0-9]/g,""))||0,
     city: document.getElementById("fCity").value.trim() || "Belirtilmedi",
     desc: document.getElementById("fDesc").value.trim() || "Satıcı ek bir açıklama eklemedi.",
-    seller: currentUser.name, featured: postFeatured, createdAt: Date.now(),
+    seller: currentUser.name, sellerUid: currentUser.uid, featured: postFeatured, createdAt: Date.now(),
     images: postImages.slice()
   };
   listings.push(item);
@@ -1261,10 +1419,20 @@ renderRack(); renderCats(); renderCondFilters(); renderGenderFilters(); renderAg
       await updateProfile(cred.user, {displayName: name});
       // updateProfile sonrası onAuthStateChanged tekrar tetiklenmeyebilir,
       // bu yüzden güncel kullanıcıyı elle de bildiriyoruz.
-      window.onAuthChanged({name, email: cred.user.email});
+      window.onAuthChanged({name, email: cred.user.email, uid: cred.user.uid, since: cred.user.metadata.creationTime});
     } catch (e) {
       showToast(friendlyError(e.code));
       throw e;
+    }
+  };
+
+  window.authUpdateName = async (newName) => {
+    try {
+      await updateProfile(auth.currentUser, {displayName: newName});
+      window.onAuthChanged({name: newName, email: auth.currentUser.email, uid: auth.currentUser.uid, since: auth.currentUser.metadata.creationTime});
+      showToast("Profil bilgilerin güncellendi ✓");
+    } catch (e) {
+      showToast(friendlyError(e.code));
     }
   };
 
@@ -1301,7 +1469,9 @@ renderRack(); renderCats(); renderCondFilters(); renderGenderFilters(); renderAg
     if (user) {
       window.onAuthChanged({
         name: user.displayName || (user.email ? user.email.split("@")[0] : "Kullanıcı"),
-        email: user.email
+        email: user.email,
+        uid: user.uid,
+        since: user.metadata.creationTime
       });
     } else {
       window.onAuthChanged(null);
