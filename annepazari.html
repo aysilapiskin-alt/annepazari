@@ -25,7 +25,7 @@
   .disp{font-family:'Plus Jakarta Sans',sans-serif;}
   a{color:inherit; text-decoration:none;}
   button{font-family:inherit; cursor:pointer; border:none;}
-  .tap{transition:transform .15s ease, opacity .15s ease;}
+  .tap{transition:transform .15s ease, opacity .15s ease; cursor:pointer;}
   .tap:active{transform:scale(0.97); opacity:.88;}
   ::-webkit-scrollbar{height:0; width:0;}
 
@@ -33,9 +33,11 @@
 
   /* HEADER */
   header{position:sticky; top:0; z-index:40; backdrop-filter:blur(14px); background:rgba(255,247,250,0.82); border-bottom:1px solid rgba(150,130,180,0.10);}
-  header .cats{margin:0; padding:0 0 12px; border:none;}
-  header .cat-pill{background:var(--bg); box-shadow:none;}
-  header .cat-pill.active{background:var(--ink); color:#fff;}
+  header .cats{margin:0; padding:0; border:none; gap:22px;}
+  header .cat-pill{background:none; box-shadow:none; padding:10px 0 12px; border-radius:0; border-bottom:2.5px solid transparent; font-weight:600; color:var(--ink-soft);}
+  header .cat-pill.active{background:none; color:var(--ink); font-weight:800; border-bottom-color:#E8A9C4;}
+  header .cat-pill:hover:not(.active){color:var(--ink);}
+  header .cat-pill svg{width:15px; height:15px;}
 
   .featured-scroll{display:flex; gap:14px; overflow-x:auto; padding-bottom:6px;}
   .featured-scroll .card{min-width:220px; flex-shrink:0;}
