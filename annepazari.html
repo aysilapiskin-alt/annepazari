@@ -33,6 +33,12 @@
 
   /* HEADER */
   header{position:sticky; top:0; z-index:40; backdrop-filter:blur(14px); background:rgba(255,247,250,0.82); border-bottom:1px solid rgba(150,130,180,0.10);}
+  header .cats{margin:0; padding:0 0 12px; border:none;}
+  header .cat-pill{background:var(--bg); box-shadow:none;}
+  header .cat-pill.active{background:var(--ink); color:#fff;}
+
+  .featured-scroll{display:flex; gap:14px; overflow-x:auto; padding-bottom:6px;}
+  .featured-scroll .card{min-width:220px; flex-shrink:0;}
   .headrow{display:flex; align-items:center; justify-content:space-between; padding:16px 0;}
   .logo{display:flex; align-items:center; gap:9px; font-weight:800; font-size:19px;}
   .logo .mark{width:34px; height:34px; border-radius:11px; background:linear-gradient(135deg,#F0A8C6,#B79AEA); display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px;}
@@ -285,15 +291,13 @@
   <div class="wrap headrow">
     <div class="logo tap" id="logoHome" style="cursor:pointer;"><div class="mark">🌷</div> Anne Pazarı</div>
     <nav>
-      <div class="navlinks">
-        <a href="#kesfet" onclick="showHome()">Keşfet</a>
-        <a href="#fiyatlandirma" onclick="showHome()">Üyelik</a>
-        <a href="#nasil" onclick="showHome()">Nasıl Çalışır</a>
-      </div>
       <button class="btn btn-ghost tap" id="btnFav">Favorilerim</button>
       <div id="authArea"></div>
       <button class="btn btn-primary tap" id="btnPostTop">İlan Ver</button>
     </nav>
+  </div>
+  <div class="wrap">
+    <div class="cats" id="catRow"></div>
   </div>
 </header>
 
@@ -321,6 +325,16 @@
 </div>
 
 <main class="wrap">
+  <section class="section" id="featuredStrip" style="display:none;">
+    <div class="section-head">
+      <div>
+        <h2 class="disp">🔥 Öne Çıkan İlanlar</h2>
+        <p>Vitrine taşınmış, en dikkat çeken ilanlar</p>
+      </div>
+    </div>
+    <div class="featured-scroll" id="featuredScroll"></div>
+  </section>
+
   <section class="section" id="kesfet">
     <div class="section-head">
       <div>
@@ -328,8 +342,6 @@
         <p>Taze eklenenlerden başlayalım</p>
       </div>
     </div>
-
-    <div class="cats" id="catRow"></div>
 
     <div class="sort-bar">
       <div class="result-count" id="resultCount"></div>
@@ -856,7 +868,16 @@ function renderCard(l){
       </div>
     </div>`;
 }
+function renderFeaturedStrip(){
+  const section = document.getElementById("featuredStrip");
+  const scroll = document.getElementById("featuredScroll");
+  const featured = listings.filter(l=>l.featured && !l.sold);
+  if (featured.length===0){ section.style.display="none"; return; }
+  section.style.display="block";
+  scroll.innerHTML = featured.map(l=>renderCard(l)).join("");
+}
 function renderGrid(){
+  renderFeaturedStrip();
   const grid = document.getElementById("listingGrid");
   const items = applyFilters();
 
