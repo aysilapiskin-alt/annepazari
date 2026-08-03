@@ -743,22 +743,9 @@ const AGE_RANGES = [
   {key:"4+", label:"4+", unit:"YAŞ"}
 ];
 
-/* Seed ilanlar — gerçek bir sitede bu fotoğraflar satıcının kendi
-   yüklediği fotoğraflar olur. Burada prototip için örnek görseller
-   kullanıyoruz (picsum.photos), ilan verirken eklenen fotoğraflar
-   tarayıcıda gerçek dosyalardan okunur. */
-let listings = [
-  {id:"s1", title:"3-6 Ay Kız Bebek Tulum Seti (5 Parça)", category:"kiyafet", gender:"kiz", age:"3-6", size:"68", condition:"Az Kullanılmış", price:180, city:"Balıkesir, Merkez", desc:"Bir sezon giyildi, lekesiz ve yıpranmamış. Setle birlikte 5 tulum geliyor.", seller:"Elif Anne", featured:true, createdAt:5, images:["https://picsum.photos/seed/tulum1/600/600","https://picsum.photos/seed/tulum2/600/600"]},
-  {id:"s2", title:"Chicco Oto Koltuğu 0-13 kg", category:"araba", gender:"unisex", age:"0-3", size:"0-13 kg", condition:"Kullanılmış - İyi Durumda", price:950, city:"İstanbul, Kadıköy", desc:"Tek çocukta kullanıldı, kaza kaydı yok, yıkanabilir kılıfıyla birlikte.", seller:"Merve K.", featured:true, createdAt:4, images:["https://picsum.photos/seed/otokoltugu1/600/600"]},
-  {id:"s3", title:"Ahşap Eğitici Oyuncak Seti", category:"oyuncak", gender:"unisex", age:"1-2", size:"—", condition:"Yeni / Etiketli", price:120, city:"Ankara, Çankaya", desc:"Hiç açılmadı, hediye gelmişti. Boyama, şekil eşleştirme parçaları içerir.", seller:"Zeynep A.", featured:true, createdAt:3, images:["https://picsum.photos/seed/oyuncak1/600/600","https://picsum.photos/seed/oyuncak2/600/600","https://picsum.photos/seed/oyuncak3/600/600"]},
-  {id:"s4", title:"18-24 Ay Erkek Bebek Kışlık Mont", category:"kiyafet", gender:"erkek", age:"1-2", size:"86-92", condition:"Az Kullanılmış", price:150, city:"Bursa, Nilüfer", desc:"Su geçirmez dış yüzey, içi polar astarlı. Bir kış kullanıldı.", seller:"Sude Y.", featured:false, createdAt:3, images:["https://picsum.photos/seed/mont1/600/600"]},
-  {id:"s5", title:"Bebek Uyku Tulumu ve Nevresim Seti", category:"mobilya", gender:"unisex", age:"0-3", size:"0-6 ay", condition:"Kullanılmış - İyi Durumda", price:90, city:"İzmir, Bornova", desc:"Yıkanmış, hazır kullanıma uygun. Pamuklu kumaş.", seller:"Ayşe T.", featured:false, createdAt:2, images:["https://picsum.photos/seed/nevresim1/600/600"]},
-  {id:"s6", title:"İlk Adım Ayakkabısı, 21 Numara", category:"ayakkabi", gender:"unisex", age:"1-2", size:"21", condition:"Az Kullanılmış", price:75, city:"Antalya, Muratpaşa", desc:"Yumuşak tabanlı, birkaç kez giyildi. Kutusu mevcut.", seller:"Elif Anne", featured:false, createdAt:1, images:["https://picsum.photos/seed/ayakkabi1/600/600"]},
-  {id:"s7", title:"Biberon Sterilizatör ve 4'lü Biberon", category:"mama", gender:"unisex", age:"0-3", size:"—", condition:"Yeni / Etiketli", price:210, city:"Balıkesir, Merkez", desc:"Kullanılmadı, ihtiyaç kalmadı. Orijinal kutusunda.", seller:"Derya S.", featured:false, createdAt:1, images:["https://picsum.photos/seed/biberon1/600/600"]},
-  {id:"s8", title:"3+ Yaş Resimli Hikaye Kitapları (10 Adet)", category:"kitap", gender:"unisex", age:"4+", size:"—", condition:"Kullanılmış - İyi Durumda", price:130, city:"Kocaeli, İzmit", desc:"Türkçe klasik masal seti, sayfaları sağlam.", seller:"Merve K.", featured:false, createdAt:0, images:["https://picsum.photos/seed/kitap1/600/600"]},
-  {id:"s9", title:"Kız Çocuk Spor Ayakkabı, 24 Numara", category:"ayakkabi", gender:"kiz", age:"2-4", size:"24", condition:"Az Kullanılmış", price:110, city:"İzmir, Karşıyaka", desc:"Bir sezon giyildi, tabanı sağlam. Işıklı taban özelliği var.", seller:"Derya S.", featured:false, createdAt:2, images:["https://picsum.photos/seed/ayakkabikiz1/600/600"]},
-  {id:"s10", title:"Erkek Çocuk Kot Pantolon, 4-5 Yaş", category:"kiyafet", gender:"erkek", age:"2-4", size:"104", condition:"Kullanılmış - İyi Durumda", price:95, city:"Ankara, Yenimahalle", desc:"Dizleri sağlam, rengi solmamış. 2 adet birlikte.", seller:"Sude Y.", featured:false, createdAt:1, images:["https://picsum.photos/seed/kotpantolon1/600/600"]}
-];
+/* Site artık örnek (seed) ilan içermiyor — sadece kullanıcıların
+   gerçekten verdiği ilanlar burada birikir. */
+let listings = [];
 let favorites = new Set();
 let activeCategory = "all";
 let activeAge = null;
